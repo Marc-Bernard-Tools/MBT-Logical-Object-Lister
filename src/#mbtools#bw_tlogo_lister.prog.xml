@@ -620,15 +620,21 @@
     </item>
     <item>
      <ID>S</ID>
+     <KEY>P_R4C</KEY>
+     <ENTRY>R4C Mode</ENTRY>
+     <LENGTH>16</LENGTH>
+    </item>
+    <item>
+     <ID>S</ID>
      <KEY>P_SUBOBJ</KEY>
      <ENTRY>Include Object Subtypes</ENTRY>
      <LENGTH>31</LENGTH>
     </item>
     <item>
      <ID>S</ID>
-     <KEY>SO_TLOGO</KEY>
-     <ENTRY>Object Type</ENTRY>
-     <LENGTH>19</LENGTH>
+     <KEY>S_TLOGO</KEY>
+     <ENTRY>Objects</ENTRY>
+     <LENGTH>15</LENGTH>
     </item>
    </TPOOL>
   </asx:values>
