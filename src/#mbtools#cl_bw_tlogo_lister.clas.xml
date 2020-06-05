@@ -12,7 +12,201 @@
     <UNICODE>X</UNICODE>
     <RSTAT>K</RSTAT>
    </VSEOCLASS>
+   <TPOOL>
+    <item>
+     <ID>I</ID>
+     <KEY>001</KEY>
+     <ENTRY>BW Logical Objects</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>002</KEY>
+     <ENTRY>Tool Group</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>003</KEY>
+     <ENTRY>Tool</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>004</KEY>
+     <ENTRY>Icon</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>005</KEY>
+     <ENTRY>Object</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>006</KEY>
+     <ENTRY>Sub-object</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>007</KEY>
+     <ENTRY>Properties</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>008</KEY>
+     <ENTRY>[hidden]</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>009</KEY>
+     <ENTRY>[local]</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>010</KEY>
+     <ENTRY>[not supported in B4H mode]</ENTRY>
+     <LENGTH>60</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>011</KEY>
+     <ENTRY>No text</ENTRY>
+     <LENGTH>30</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>012</KEY>
+     <ENTRY>Configuration for</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>013</KEY>
+     <ENTRY>BI Content Object</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>014</KEY>
+     <ENTRY>Respository Description</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>015</KEY>
+     <ENTRY>Respository Icon</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>016</KEY>
+     <ENTRY>Object Description</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>017</KEY>
+     <ENTRY>Object Type</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>018</KEY>
+     <ENTRY>Package</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>020</KEY>
+     <ENTRY>Sheet</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>021</KEY>
+     <ENTRY>Cell</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>022</KEY>
+     <ENTRY>Exception</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>023</KEY>
+     <ENTRY>Condition</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>024</KEY>
+     <ENTRY>Process Category</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>025</KEY>
+     <ENTRY>Process Type</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>030</KEY>
+     <ENTRY>Primary Table</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>031</KEY>
+     <ENTRY>Dependent Table</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>032</KEY>
+     <ENTRY>ABAP Class</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>033</KEY>
+     <ENTRY>ABAP Class (Collection)</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>034</KEY>
+     <ENTRY>Maintenance Function</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>035</KEY>
+     <ENTRY>Before Export</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>036</KEY>
+     <ENTRY>After Import</ENTRY>
+     <LENGTH>50</LENGTH>
+    </item>
+   </TPOOL>
    <DESCRIPTIONS>
+    <SEOCOMPOTX>
+     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
+     <CMPNAME>CHECK_B4H_MODE</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Check B4H Mode</DESCRIPT>
+    </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
      <CMPNAME>CONSTRUCTOR</CMPNAME>
@@ -57,12 +251,6 @@
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>MR_TREE</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Tree</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
      <CMPNAME>MT_BLACKLIST</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Blacklist</DESCRIPT>
@@ -84,72 +272,6 @@
      <CMPNAME>MT_TREE</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Trees</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_B4H</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>B4H mode</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_BPC</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>BPC</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_BW</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>BW mode</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_BW4</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>BW4 mode</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_BYNAME</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Sort by name</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_BYSEQU</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Sort by sequence</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_BYTEXT</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Sort by text</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_CACHE</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Cache</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_PROP</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Properties</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_SUBOBJ</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Sub-object</DESCRIPT>
-    </SEOCOMPOTX>
-    <SEOCOMPOTX>
-     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
-     <CMPNAME>M_TLOGOS</CMPNAME>
-     <LANGU>E</LANGU>
-     <DESCRIPT>Objects</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
@@ -210,6 +332,24 @@
      <CMPNAME>PROCESS_PROPERTIES</CMPNAME>
      <LANGU>E</LANGU>
      <DESCRIPT>Properties</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
+     <CMPNAME>PROCESS_RSPV</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Process Variant</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
+     <CMPNAME>PROCESS_RSPV_CATEGORY</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Process Variant Category</DESCRIPT>
+    </SEOCOMPOTX>
+    <SEOCOMPOTX>
+     <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>
+     <CMPNAME>PROCESS_RSPV_TYPE</CMPNAME>
+     <LANGU>E</LANGU>
+     <DESCRIPT>Process Variant Type</DESCRIPT>
     </SEOCOMPOTX>
     <SEOCOMPOTX>
      <CLSNAME>/MBTOOLS/CL_BW_TLOGO_LISTER</CLSNAME>

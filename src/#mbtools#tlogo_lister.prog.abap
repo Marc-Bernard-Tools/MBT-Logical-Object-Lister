@@ -8,8 +8,7 @@
 *
 * (c) MBT 2020 https://marcbernardtools.com/
 ************************************************************************
-
-REPORT /mbtools/bw_tlogo_lister.
+REPORT /mbtools/tlogo_lister.
 
 TABLES:
   sscrfields, rstlogoprop.
@@ -33,9 +32,9 @@ SELECTION-SCREEN:
 END OF BLOCK b210,
 BEGIN OF BLOCK b220 WITH FRAME.
 PARAMETERS:
-  p_bw  RADIOBUTTON GROUP g3 DEFAULT 'X',
-  p_b4h RADIOBUTTON GROUP g3,
-  p_bw4 RADIOBUTTON GROUP g3.
+  p_bw  RADIOBUTTON GROUP g3 DEFAULT 'X' MODIF ID bw4,
+  p_b4h RADIOBUTTON GROUP g3 MODIF ID bw4,
+  p_bw4 RADIOBUTTON GROUP g3 MODIF ID bw4.
 SELECTION-SCREEN:
 END OF BLOCK b220,
 BEGIN OF BLOCK b230 WITH FRAME.
@@ -76,7 +75,8 @@ SELECTION-SCREEN:
 
 INCLUDE /mbtools/bc_screen_data.
 
-DATA: gr_app TYPE REF TO /mbtools/cl_bw_tlogo_lister.
+DATA:
+  go_app TYPE REF TO /mbtools/cl_bw_tlogo_lister.
 
 *-----------------------------------------------------------------------
 
@@ -90,10 +90,18 @@ INITIALIZATION.
 
   scr_tab2 = /mbtools/cl_screen=>header(
     iv_icon = icon_selection
-    iv_text = 'Selection' ).
+    iv_text = 'Selection'(001) ).
 
-  scr_t200 = 'Select which objects to view and set how you'.
-  scr_t201 = 'want the results sorted and displayed'.
+  scr_t200 = 'Select which objects to view and set how you'(200).
+  scr_t201 = 'want the results sorted and displayed'(201).
+
+  " Is this BW4?
+  SELECT SINGLE release FROM cvers INTO sy-lisel
+    WHERE component = 'DW4CORE'.
+  IF sy-subrc = 0.
+    p_bw = p_b4h = abap_false.
+    p_bw4 = abap_true.
+  ENDIF.
 
 *-----------------------------------------------------------------------
 
@@ -112,22 +120,22 @@ AT SELECTION-SCREEN OUTPUT.
 START-OF-SELECTION.
 
   LOG-POINT ID /mbtools/bc
-    SUBKEY gr_tool->get_title( )
+    SUBKEY go_tool->get_title( )
     FIELDS sy-datum sy-uzeit sy-uname.
 
   " Setup tree
-  gr_app->initialize(
-    i_tlogos = s_tlogo[]
-    i_bw     = p_bw
-    i_b4h    = p_b4h
-    i_bw4    = p_bw4
-    i_prop   = p_prop
-    i_bytext = p_bytext
-    i_byname = p_byname
-    i_bysequ = p_bysequ
-    i_cache  = p_cache
-    i_subobj = p_subobj
-    i_bpc    = p_bpc ).
+  go_app->initialize(
+    ir_tlogos = s_tlogo[]
+    iv_bw     = p_bw
+    iv_b4h    = p_b4h
+    iv_bw4    = p_bw4
+    iv_prop   = p_prop
+    iv_bytext = p_bytext
+    iv_byname = p_byname
+    iv_bysequ = p_bysequ
+    iv_cache  = p_cache
+    iv_subobj = p_subobj
+    iv_bpc    = p_bpc ).
 
   " Output as ALV tree control
   CALL SCREEN 100.

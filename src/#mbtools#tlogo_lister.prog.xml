@@ -3,7 +3,7 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <PROGDIR>
-    <NAME>/MBTOOLS/BW_TLOGO_LISTER</NAME>
+    <NAME>/MBTOOLS/TLOGO_LISTER</NAME>
     <SUBC>1</SUBC>
     <APPL>B</APPL>
     <RSTAT>K</RSTAT>
@@ -14,7 +14,7 @@
    <DYNPROS>
     <item>
      <HEADER>
-      <PROGRAM>/MBTOOLS/BW_TLOGO_LISTER</PROGRAM>
+      <PROGRAM>/MBTOOLS/TLOGO_LISTER</PROGRAM>
       <SCREEN>0100</SCREEN>
       <LANGUAGE>E</LANGUAGE>
       <DESCRIPT>MBT Logical Object Lister</DESCRIPT>
@@ -30,7 +30,7 @@
       </RPY_DYCATT>
       <RPY_DYCATT>
        <TYPE>CUST_CTRL</TYPE>
-       <NAME>TREE_CONTAINER</NAME>
+       <NAME>GO_TREE_CONTAINER</NAME>
        <ELEMENT_OF>SCREEN</ELEMENT_OF>
        <LINE>001</LINE>
        <COLUMN>001</COLUMN>
@@ -47,7 +47,7 @@
        <CONT_TYPE>SCREEN</CONT_TYPE>
        <CONT_NAME>SCREEN</CONT_NAME>
        <TYPE>OKCODE</TYPE>
-       <NAME>G_OK_CODE</NAME>
+       <NAME>GV_OK_CODE</NAME>
        <TEXT>____________________</TEXT>
        <LENGTH>020</LENGTH>
        <VISLENGTH>020</VISLENGTH>
@@ -566,6 +566,24 @@
    </CUA>
    <TPOOL>
     <item>
+     <ID>I</ID>
+     <KEY>001</KEY>
+     <ENTRY>Selection</ENTRY>
+     <LENGTH>19</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>200</KEY>
+     <ENTRY>Select which objects to view and set how you</ENTRY>
+     <LENGTH>77</LENGTH>
+    </item>
+    <item>
+     <ID>I</ID>
+     <KEY>201</KEY>
+     <ENTRY>want the results sorted and displayed</ENTRY>
+     <LENGTH>77</LENGTH>
+    </item>
+    <item>
      <ID>R</ID>
      <ENTRY>MBT Logical Object Lister</ENTRY>
      <LENGTH>25</LENGTH>
@@ -579,7 +597,7 @@
     <item>
      <ID>S</ID>
      <KEY>P_BPC</KEY>
-     <ENTRY>Include SAP BPC Object Types</ENTRY>
+     <ENTRY>Include BPC Classic Types</ENTRY>
      <LENGTH>36</LENGTH>
     </item>
     <item>
@@ -617,12 +635,6 @@
      <KEY>P_PROP</KEY>
      <ENTRY>Display Properties</ENTRY>
      <LENGTH>26</LENGTH>
-    </item>
-    <item>
-     <ID>S</ID>
-     <KEY>P_R4C</KEY>
-     <ENTRY>R4C Mode</ENTRY>
-     <LENGTH>16</LENGTH>
     </item>
     <item>
      <ID>S</ID>
