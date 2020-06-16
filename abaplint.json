@@ -70,6 +70,7 @@
     "check_include": {
       "exclude": [
         "#mbtools#bc_screen_about_tab.prog.abap",
+        "#mbtools#bc_screen_at_select.prog.abap",
         "#mbtools#bc_screen_data.prog.abap",
         "#mbtools#bc_screen_init.prog.abap",
         "#mbtools#bc_screen_pbo_pai.prog.abap"
