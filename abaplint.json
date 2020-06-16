@@ -17,9 +17,13 @@
     "errorNamespace": "^(/MBTOOLS/|LT?CL_|LIF_)",
     "globalConstants": [
       "apack_manifest",
-      "rc_c_tlogo",
-      "rc_c_deftp",	    
-      "mbt_manifest"
+      "icon_bw_apd_source",
+      "icon_bw_apd_target",
+      "icon_bw_apd_transformation",
+      "icon_dummy",
+      "mbt_manifest",
+      "rs_c_tlogo",
+      "rzd1_c_deftp"
     ],
     "globalMacros": []
   },
@@ -33,23 +37,10 @@
     "allowed_object_naming": true,
     "allowed_object_types": {
       "allowed": [
-        "ACID",
-        "AVAR",
         "CLAS",
-        "DTEL",
         "DEVC",
-        "DOMA",
-        "ENHO",
-        "ENHS",
-        "ENQU",
-        "FUGR",
-        "INTF",
-        "MSAG",
-        "PARA",
         "PROG",
-        "TABL",
         "TRAN",
-        "TTYP",
         "W3MI"
       ]
     },
