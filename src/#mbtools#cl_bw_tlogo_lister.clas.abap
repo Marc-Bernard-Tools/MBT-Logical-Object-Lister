@@ -11,7 +11,7 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
 
   PUBLIC SECTION.
 
-    INTERFACES if_apack_manifest .
+    INTERFACES if_apack_manifest.
     INTERFACES /mbtools/if_manifest .
 
     TYPES:
@@ -52,7 +52,7 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
   PRIVATE SECTION.
 
     ALIASES apack_manifest
-      FOR if_apack_manifest~descriptor .
+      FOR if_apack_manifest~descriptor.
     ALIASES mbt_manifest
       FOR /mbtools/if_manifest~descriptor .
 
@@ -394,7 +394,10 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       ls_tool     TYPE cl_rsan_fct_appl_type=>ys_appltool,
       lv_hidden   TYPE abap_bool.
 
-    CREATE OBJECT lo_level EXPORTING io_tree  = mo_tree iv_level = iv_level.
+    CREATE OBJECT lo_level
+      EXPORTING
+        io_tree  = mo_tree
+        iv_level = iv_level.
 
     lo_level->text = is_group-text.
 
