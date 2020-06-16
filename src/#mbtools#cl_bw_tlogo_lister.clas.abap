@@ -394,10 +394,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       ls_tool     TYPE cl_rsan_fct_appl_type=>ys_appltool,
       lv_hidden   TYPE abap_bool.
 
-    CREATE OBJECT lo_level
-      EXPORTING
-        io_tree  = mo_tree
-        iv_level = iv_level.
+    CREATE OBJECT lo_level EXPORTING io_tree  = mo_tree iv_level = iv_level.
 
     lo_level->text = is_group-text.
 
@@ -911,9 +908,8 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         iv_level = iv_level.
 
     mo_tree->add_sub_node(
-      EXPORTING
-        iv_icon  = icon_icon_list
-        iv_title = 'Properties'(007) ).
+      iv_icon  = icon_icon_list
+      iv_title = 'Properties'(007) ).
 
     lo_level->next( ).
 
