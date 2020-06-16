@@ -7,7 +7,7 @@
   },
   "dependencies": [
     {
-      "url": "https://github.com/mbtools/MBT_Dependencies",
+      "url": "https://github.com/abaplint/deps",
       "folder": "/deps",
       "files": "/src/**/*.*"
     }
