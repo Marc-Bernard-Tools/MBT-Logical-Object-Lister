@@ -417,13 +417,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
                              cv_hidden = lv_hidden ).
 
     mo_tree->add_detail(
-      EXPORTING
-        iv_icon   = lo_level->icon
-        iv_title  = 'Tool Group'(002)
-        iv_text   = lo_level->text
-        iv_value  = is_group-toolgroup
-        iv_level  = lo_level->level
-        iv_hidden = lv_hidden ).
+      iv_icon   = lo_level->icon
+      iv_title  = 'Tool Group'(002)
+      iv_text   = lo_level->text
+      iv_value  = is_group-toolgroup
+      iv_level  = lo_level->level
+      iv_hidden = lv_hidden ).
 
     lo_level->next( ).
 
@@ -514,13 +513,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
                              cv_hidden = lv_hidden ).
 
     mo_tree->add_detail(
-      EXPORTING
-        iv_icon   = lo_level->icon
-        iv_title  = 'Tool'(003)
-        iv_text   = lo_level->text
-        iv_value  = ls_tool-tool
-        iv_level  = lo_level->level
-        iv_hidden = lv_hidden ).
+      iv_icon   = lo_level->icon
+      iv_title  = 'Tool'(003)
+      iv_text   = lo_level->text
+      iv_value  = ls_tool-tool
+      iv_level  = lo_level->level
+      iv_hidden = lv_hidden ).
 
     IF mv_prop = abap_true.
       process_icon( iv_icon  = lo_level->icon
@@ -547,12 +545,11 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       WHERE id = iv_icon.
     IF sy-subrc = 0.
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = iv_icon
-          iv_title = 'Icon'(004)
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level ).
+        iv_icon  = iv_icon
+        iv_title = 'Icon'(004)
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level ).
     ENDIF.
 
   ENDMETHOD.
@@ -811,13 +808,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
       " Add to output
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon   = lo_level->icon
-          iv_title  = lv_title
-          iv_text   = lo_level->text
-          iv_value  = lo_level->value
-          iv_hidden = lv_hidden
-          iv_level  = lo_level->level ).
+        iv_icon   = lo_level->icon
+        iv_title  = lv_title
+        iv_text   = lo_level->text
+        iv_value  = lo_level->value
+        iv_hidden = lv_hidden
+        iv_level  = lo_level->level ).
 
       " Reset cache
       IF mv_cache IS INITIAL.
@@ -933,34 +929,31 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
           ev_text   = lo_level->text ).
 
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = iv_icon
-          iv_title = 'BI Content Object'(013)
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level ).
+        iv_icon  = iv_icon
+        iv_title = 'BI Content Object'(013)
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level ).
     ENDIF.
 
     " Description
     mo_tree->add_detail(
-      EXPORTING
-        iv_icon  = iv_icon
-        iv_title = 'Respository Description'(014)
-        iv_text  = iv_text
-        iv_value = ''
-        iv_level = lo_level->level ).
+      iv_icon  = iv_icon
+      iv_title = 'Respository Description'(014)
+      iv_text  = iv_text
+      iv_value = ''
+      iv_level = lo_level->level ).
 
     " Icon
     SELECT SINGLE id name FROM icon INTO (lo_level->value, lo_level->text)
       WHERE id = iv_icon.
     IF sy-subrc = 0.
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = iv_icon
-          iv_title = 'Respository Icon'(015)
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level ).
+        iv_icon  = iv_icon
+        iv_title = 'Respository Icon'(015)
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level ).
     ENDIF.
 
     " Object
@@ -968,12 +961,9 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       WHERE objectname = iv_tlogo AND language = sy-langu ##WARN_OK.
     IF sy-subrc = 0.
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = ''
-          iv_title = 'Object Description'(016)
-          iv_text  = lo_level->text
-          iv_value = ''
-          iv_level = lo_level->level ).
+        iv_title = 'Object Description'(016)
+        iv_text  = lo_level->text
+        iv_level = lo_level->level ).
     ENDIF.
 
     SELECT SINGLE objecttype FROM objh INTO lo_level->value
@@ -987,12 +977,10 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
           ev_text   = lo_level->text ).
 
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = ''
-          iv_title = 'Object Type'(017)
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level ).
+        iv_title = 'Object Type'(017)
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level ).
     ENDIF.
 
     " Package
@@ -1009,13 +997,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       ENDIF.
 
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = icon_package_standard
-          iv_title = 'Package'(018)
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level
-          iv_type  = 'DEVC' ).
+        iv_icon  = icon_package_standard
+        iv_title = 'Package'(018)
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level
+        iv_type  = 'DEVC' ).
     ENDIF.
 
     " Primary table
@@ -1123,12 +1110,11 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     lo_level->icon = is_category-icon.
 
     mo_tree->add_detail(
-      EXPORTING
-        iv_icon  = lo_level->icon
-        iv_title = 'Process Category'(024)
-        iv_text  = lo_level->text
-        iv_value = is_category-category
-        iv_level = lo_level->level ).
+      iv_icon  = lo_level->icon
+      iv_title = 'Process Category'(024)
+      iv_text  = lo_level->text
+      iv_value = is_category-category
+      iv_level = lo_level->level ).
 
     lo_level->next( ).
 
@@ -1194,13 +1180,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     ENDIF.
 
     mo_tree->add_detail(
-      EXPORTING
-        iv_icon   = is_variant-icon
-        iv_title  = 'Process Type'(025)
-        iv_text   = lo_level->text
-        iv_value  = is_variant-type
-        iv_level  = lo_level->level
-        iv_hidden = lv_hidden ).
+      iv_icon   = is_variant-icon
+      iv_title  = 'Process Type'(025)
+      iv_text   = lo_level->text
+      iv_value  = is_variant-type
+      iv_level  = lo_level->level
+      iv_hidden = lv_hidden ).
 
   ENDMETHOD.
 
@@ -1270,13 +1255,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       ENDIF.
 
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = icon_abap
-          iv_title = iv_title
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level
-          iv_type  = 'CLAS' ).
+        iv_icon  = icon_abap
+        iv_title = iv_title
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level
+        iv_type  = 'CLAS' ).
     ENDIF.
 
   ENDMETHOD.
@@ -1304,13 +1288,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       ENDIF.
 
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = icon_abap
-          iv_title = iv_title
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level
-          iv_type  = 'FUNC' ).
+        iv_icon  = icon_abap
+        iv_title = iv_title
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level
+        iv_type  = 'FUNC' ).
     ENDIF.
 
   ENDMETHOD.
@@ -1339,42 +1322,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       ENDIF.
 
       mo_tree->add_detail(
-        EXPORTING
-          iv_icon  = icon_database_table
-          iv_title = iv_title
-          iv_text  = lo_level->text
-          iv_value = lo_level->value
-          iv_level = lo_level->level
-          iv_type  = 'TABL' ).
-
-*    Might try to list fields that refer to coding...
-*    DATA: l_rollname TYPE rollname.
-*    SELECT fieldname rollname FROM dd03l INTO (lo_level->value,l_rollname)
-*      WHERE tabname = iv_table AND as4local = 'A'
-*        AND ( rollname IN ('PROGRAMM','PROGRAM','PROGNAME','ClASSNAME','SEOCLSNAME','FUNCNAME')
-*         OR   domname  IN ('PROGRAMM','PROGRAM','PROGNAME','ClASSNAME','SEOCLSNAME','FUNCNAME') ).
-*
-*      SELECT SINGLE ddtext FROM dd04t INTO lo_level->text
-*        WHERE rollname = l_rollname AND as4local = 'A'
-*          AND ddlanguage = sy-langu.
-*      IF sy-subrc <> 0.
-*        SELECT SINGLE ddtext FROM dd03t INTO lo_level->text
-*          WHERE tabname = iv_table AND fieldname = lo_level->value AND as4local = 'A'
-*            AND ddlanguage = sy-langu.
-*        IF sy-subrc <> 0.
-*          lo_level->text = 'No text'.
-*        ENDIF.
-*      ENDIF.
-*
-*      mo_tree->add_detail(
-*        EXPORTING
-*          iv_icon  = lo_level->icon
-*          iv_title = 'ABAP-related Field'
-*          iv_text  = lo_level->text
-*          iv_value = lo_level->value
-*          iv_level = lo_level->level
-*          iv_type  = ''.
-*    ENDSELECT.
+        iv_icon  = icon_database_table
+        iv_title = iv_title
+        iv_text  = lo_level->text
+        iv_value = lo_level->value
+        iv_level = lo_level->level
+        iv_type  = 'TABL' ).
 
     ENDIF.
 
