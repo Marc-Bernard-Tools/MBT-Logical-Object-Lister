@@ -34,7 +34,11 @@
       ]
     },
     "abapdoc": false,
-    "allowed_object_naming": true,
+    "allowed_object_naming": {
+      "exclude": [
+        "#mbtools#mbt_logical_object_lister.w3mi.data.png"
+      ]
+    },
     "allowed_object_types": {
       "allowed": [
         "CLAS",
@@ -65,6 +69,9 @@
     "check_ddic": true,
     "check_include": {
       "exclude": [
+        "#mbtools#bc_screen_about_tab.prog.abap"
+        "#mbtools#bc_screen_data.prog.abap"
+        "#mbtools#bc_screen_init.prog.abap"
         "#mbtools#bc_screen_pbo_pai.prog.abap"
       ]
     },
