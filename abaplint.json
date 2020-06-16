@@ -17,6 +17,8 @@
     "errorNamespace": "^(/MBTOOLS/|LT?CL_|LIF_)",
     "globalConstants": [
       "apack_manifest",
+      "rc_c_tlogo",
+      "rc_c_deftp",	    
       "mbt_manifest"
     ],
     "globalMacros": []
