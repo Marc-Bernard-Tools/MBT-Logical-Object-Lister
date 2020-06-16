@@ -21,7 +21,8 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
       c_version     TYPE string VALUE '1.0.0' ##NO_TEXT,
       c_title       TYPE string VALUE 'MBT Logical Object Lister' ##NO_TEXT,
       c_description TYPE string VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT,
-      c_download_id TYPE i VALUE 3635 ##NO_TEXT.
+      c_bundle_id   TYPE i VALUE 0,
+      c_download_id TYPE i VALUE 3635.
 
     CONSTANTS:
       c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
@@ -139,10 +140,10 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
   METHOD check_b4h_mode.
 
-    IF mv_b4h = rs_c_true.
+    IF mv_b4h = abap_true.
       co_level->text = co_level->text && ` ` && '[not supported in B4H mode]'(010).
       co_level->icon = icon_dummy.
-      cv_hidden      = rs_c_true.
+      cv_hidden      = abap_true.
     ENDIF.
 
   ENDMETHOD.
@@ -420,7 +421,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
     lt_applfunc = is_group-ts_applfunc.
 
-    CASE rs_c_true.
+    CASE abap_true.
       WHEN mv_bytext.
         SORT lt_applfunc BY text.
       WHEN mv_byname.
@@ -508,7 +509,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         iv_level  = lo_level->level
         iv_hidden = lv_hidden.
 
-    IF mv_prop = rs_c_true.
+    IF mv_prop = abap_true.
       process_icon( iv_icon = lo_level->icon iv_level = lo_level->level ).
     ENDIF.
 
@@ -612,12 +613,28 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
           IF sy-subrc = 0 AND ls_value-ddtext NP 'BPC*'.
             CONCATENATE 'BPC' ls_value-ddtext INTO ls_value-ddtext SEPARATED BY space.
           ENDIF.
+          " Adjust 3.x text
+          IF ( ls_value-domvalue_l = 'ITEM' OR ls_value-domvalue_l = 'TMPL' ) AND
+               ls_value-ddtext CS 'Format SAP BW'.
+            REPLACE 'Format SAP BW 3.x' IN ls_value-ddtext WITH '3.x'.
+          ENDIF.
+          " Remove 3.x prefix
+          IF ( ls_value-domvalue_l = 'ISFS' OR ls_value-domvalue_l = 'ISTD' ) AND
+               ls_value-ddtext(3) = '3.x'.
+            ls_value-ddtext = ls_value-ddtext+4(*).
+          ENDIF.
+          " Add 3.x suffix
+          IF ( ls_value-domvalue_l = 'ISFS' OR ls_value-domvalue_l = 'ISTD' OR
+               ls_value-domvalue_l = 'ISMP' OR ls_value-domvalue_l = 'ISTS' OR
+               ls_value-domvalue_l = 'UPDR' ) AND ls_value-ddtext NS '3.x'.
+            CONCATENATE ls_value-ddtext '(3.x)' INTO ls_value-ddtext SEPARATED BY space.
+          ENDIF.
           MODIFY lt_value FROM ls_value.
         ENDLOOP.
     ENDCASE.
 
     " Sort by description, technical name, or transport order
-    CASE rs_c_true.
+    CASE abap_true.
       WHEN mv_bytext.
         SORT lt_value BY ddtext.
       WHEN mv_byname.
@@ -648,24 +665,9 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       CASE iv_tlogo.
         WHEN rs_c_tlogo-infocube.
           lv_title = 'Sub-object'(006).
-          lv_cubetype = lo_level->value.
 
-          CALL METHOD cl_rso_repository=>get_tlogo_icon
-            EXPORTING
-              i_tlogo    = rs_c_tlogo-infocube
-              i_cubetype = lv_cubetype
-            RECEIVING
-              r_icon     = lo_level->icon.
-
-          " Cases that are not handled properly
-          IF mv_cache IS INITIAL.
-            CASE lv_cubetype.
-              WHEN rsd_c_cubetype-virtual.
-                lo_level->icon = icon_biw_virtual_info_provider.
-              WHEN rsd_c_cubetype-hybrid.
-                lo_level->icon = icon_write_file.
-            ENDCASE.
-          ENDIF.
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo = iv_tlogo
+                                                              iv_tlogo_sub = lo_level->value ).
 
           CALL METHOD cl_rso_repository=>get_tlogo_description
             EXPORTING
@@ -676,14 +678,9 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
         WHEN rs_c_tlogo-infoobject.
           lv_title = 'Sub-object'(006).
-          lv_iobjtp = lo_level->value.
 
-          CALL METHOD cl_rso_repository=>get_tlogo_icon
-            EXPORTING
-              i_tlogo  = rs_c_tlogo-infoobject
-              i_iobjtp = lv_iobjtp
-            RECEIVING
-              r_icon   = lo_level->icon.
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo = iv_tlogo
+                                                              iv_tlogo_sub = lo_level->value ).
 
           CALL METHOD cl_rso_repository=>get_tlogo_description
             EXPORTING
@@ -694,24 +691,9 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
         WHEN rs_c_tlogo-element.
           lv_title = 'Sub-object'(006).
-          lv_deftp = lo_level->value.
 
-          CALL METHOD cl_rso_repository=>get_tlogo_icon
-            EXPORTING
-              i_tlogo              = rs_c_tlogo-element
-              i_query_element_type = lv_deftp
-            RECEIVING
-              r_icon               = lo_level->icon.
-
-          "       Cases that are not handled properly
-          IF mv_cache IS INITIAL.
-            CASE lv_deftp.
-              WHEN rzd1_c_deftp-exception.
-                lo_level->icon = icon_bw_exception_monitor.
-              WHEN rzd1_c_deftp-condition.
-                lo_level->icon = icon_summarize.
-            ENDCASE.
-          ENDIF.
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo = iv_tlogo
+                                                              iv_tlogo_sub = lo_level->value ).
 
           CALL METHOD cl_rso_repository=>get_tlogo_description
             EXPORTING
@@ -722,13 +704,9 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
         WHEN rs_c_tlogo-logsys.
           lv_title = 'Sub-object'(006).
-          lv_srctype = lo_level->value.
 
-          CALL METHOD cl_rsar_srctype=>get_icon
-            EXPORTING
-              i_srctype = lv_srctype
-            RECEIVING
-              e_icon    = lo_level->icon.
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo = iv_tlogo
+                                                              iv_tlogo_sub = lo_level->value ).
 
           CALL METHOD cl_rsar_srctype=>get_description
             EXPORTING
@@ -740,11 +718,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
           lv_title = 'Object'(005).
           lv_tlogo = lo_level->value.
 
-          CALL METHOD cl_rso_repository=>get_tlogo_icon
-            EXPORTING
-              i_tlogo = lv_tlogo
-            RECEIVING
-              r_icon  = lo_level->icon.
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo = lv_tlogo ).
 
           CALL METHOD cl_rso_repository=>get_tlogo_description
             EXPORTING
@@ -760,10 +734,10 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         READ TABLE mt_bpc TRANSPORTING NO FIELDS
           WITH TABLE KEY tlogo = lv_tlogo.
         IF sy-subrc = 0.
-          IF mv_bpc = rs_c_false.
+          IF mv_bpc = abap_false.
             CONTINUE.
           ENDIF.
-          lv_hidden = rs_c_true.
+          lv_hidden = abap_true.
           lo_level->text = lo_level->text && ` ` && '[hidden]'(008).
         ELSE.
           READ TABLE mt_tlogo TRANSPORTING NO FIELDS
@@ -775,27 +749,27 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       ENDIF.
 
       " Check mode and compatibility
-      CASE rs_c_true.
+      CASE abap_true.
         WHEN mv_b4h.
           " B4H Mode
           CLEAR lv_no_b4h.
 
           CASE iv_tlogo.
             WHEN rs_c_tlogo-infocube.
-              lv_no_b4h = rs_c_true.
+              lv_no_b4h = abap_true.
             WHEN rs_c_tlogo-logsys.
               IF NOT lo_level->value CA 'OHF'. "ODP, HANA, File
-                lv_no_b4h = rs_c_true.
+                lv_no_b4h = abap_true.
               ENDIF.
             WHEN OTHERS.
               READ TABLE mt_blacklist TRANSPORTING NO FIELDS
                 WITH TABLE KEY tlogo = lv_tlogo.
               IF sy-subrc = 0.
-                lv_no_b4h = rs_c_true.
+                lv_no_b4h = abap_true.
               ENDIF.
           ENDCASE.
 
-          IF lv_no_b4h = rs_c_true.
+          IF lv_no_b4h = abap_true.
             check_b4h_mode( CHANGING co_level = lo_level cv_hidden = lv_hidden ).
           ENDIF.
 
@@ -816,18 +790,18 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
       ENDCASE.
 
-      " ##TODO: Mark 3.x objects
-      DATA: lv_image TYPE tv_image.
+      " Mark 3.x objects
+      DATA: lv_image TYPE tv_image ##TODO.
 
-      CALL METHOD cl_rsawbn_obj_service=>get_obsolete_icon
-        EXPORTING
-          i_tlogo  = lv_tlogo
-        RECEIVING
-          re_image = lv_image.
-      IF NOT lv_image IS INITIAL.
-        " ICON_ELEMENT
-        CONCATENATE '@HO@' lo_level->text INTO lo_level->text SEPARATED BY space.
-      ENDIF.
+*      CALL METHOD cl_rsawbn_obj_service=>get_obsolete_icon
+*        EXPORTING
+*          i_tlogo  = lv_tlogo
+*        RECEIVING
+*          re_image = lv_image.
+*      IF NOT lv_image IS INITIAL.
+*        " ICON_ELEMENT
+*        CONCATENATE '@HO@' lo_level->text INTO lo_level->text SEPARATED BY space.
+*      ENDIF.
 
       " Add to output
       CALL METHOD mo_tree->add_detail
@@ -877,7 +851,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
       lo_level->next( ).
 
-      IF mv_prop = rs_c_true.
+      IF mv_prop = abap_true.
         IF lv_tlogo IS INITIAL.
           process_icon( iv_icon = lo_level->icon iv_level = lo_level->level ).
         ELSE.
@@ -885,7 +859,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         ENDIF.
       ENDIF.
 
-      IF mv_subobj = rs_c_true.
+      IF mv_subobj = abap_true.
         CASE lv_tlogo.
           WHEN rs_c_tlogo-infocube.
             process_main( iv_tlogo = lv_tlogo iv_domname = 'RSCUBETYPE' iv_level = lo_level->level ).
@@ -1129,7 +1103,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         WHERE type = <ls_variant>-type AND langu = sy-langu.
     ENDLOOP.
 
-    CASE rs_c_true.
+    CASE abap_true.
       WHEN mv_bytext.
         SORT lt_variant BY docu_obj.
       WHEN mv_byname.
