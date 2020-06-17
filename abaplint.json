@@ -9,7 +9,7 @@
     {
       "url": "https://github.com/abaplint/deps",
       "folder": "/deps",
-      "files": "/src/**/*.*"
+      "files": "/**/*.*"
     }
   ],
   "syntax": {
