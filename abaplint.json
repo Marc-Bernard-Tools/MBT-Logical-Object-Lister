@@ -9,7 +9,7 @@
     {
       "url": "https://github.com/abaplint/deps",
       "folder": "/deps",
-      "files": "/**/*.*"
+      "files": "/src/**/*.*"
     }
   ],
   "syntax": {
@@ -17,10 +17,6 @@
     "errorNamespace": "^(/MBTOOLS/|LT?CL_|LIF_)",
     "globalConstants": [
       "apack_manifest",
-      "icon_bw_apd_source",
-      "icon_bw_apd_target",
-      "icon_bw_apd_transformation",
-      "icon_dummy",
       "mbt_manifest",
       "rs_c_tlogo",
       "rzd1_c_deftp"
@@ -69,11 +65,7 @@
     "check_ddic": true,
     "check_include": {
       "exclude": [
-        "#mbtools#bc_screen_about_tab.prog.abap",
-        "#mbtools#bc_screen_at_select.prog.abap",
-        "#mbtools#bc_screen_data.prog.abap",
-        "#mbtools#bc_screen_init.prog.abap",
-        "#mbtools#bc_screen_pbo_pai.prog.abap"
+        "#mbtools#"
       ]
     },
     "chain_mainly_declarations": true,
@@ -230,7 +222,7 @@
     },
     "method_parameter_names": {
       "exclude": [
-        "#mbtools#cl_registry.clas.abap"
+        "#mbtools#"
       ],
       "ignoreExceptions": true,
       "importing": "^I._.*$",
