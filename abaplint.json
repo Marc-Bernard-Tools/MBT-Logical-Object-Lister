@@ -39,8 +39,10 @@
       "allowed": [
         "CLAS",
         "DEVC",
+	"INTF",
         "PROG",
         "TRAN",
+	"TYPE",
         "W3MI"
       ]
     },
