@@ -1,5 +1,9 @@
 TYPE-POOL icon.
 
+TYPES:
+  icon_l2 TYPE c LENGTH 4,
+  icon_l4 TYPE c LENGTH 4.
+
 CONSTANTS:
   icon_dummy                     TYPE icon_l2 VALUE '@00@',
   icon_checked                   TYPE icon_l2 VALUE '@01@',
@@ -1229,4 +1233,3 @@ CONSTANTS:
   icon_charge                    TYPE icon_l2 VALUE '@Y1@',
   icon_start_viewer              TYPE icon_l2 VALUE '@Y2@',
   icon_suggest_value             TYPE icon_l2 VALUE '@F6@'.
-
