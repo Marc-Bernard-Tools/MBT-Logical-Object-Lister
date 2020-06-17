@@ -18,6 +18,16 @@
     "globalConstants": [
       "apack_manifest",
       "mbt_manifest",
+      "icon_dummy",
+      "icon_folder",
+      "icon_bw_apd_target",
+      "icon_bw_apd_transformation",
+      "icon_bw_apd_source",
+      "icon_icon_list",
+      "icon_package_standard",
+      "icon_abap",
+      "icon_database_table",
+      "icon_selection",
       "rs_c_tlogo",
       "rzd1_c_deftp"
     ],
