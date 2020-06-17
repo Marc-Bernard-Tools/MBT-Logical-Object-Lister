@@ -4,52 +4,56 @@
 *
 * (c) MBT 2020 https://marcbernardtools.com/
 ************************************************************************
-class /MBTOOLS/CL_BW_TLOGO_LISTER definition
-  public
-  final
-  create public .
+CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
 
-public section.
-  type-pools ICON .
+  PUBLIC SECTION.
+    TYPE-POOLS icon .
 
-  interfaces ZIF_APACK_MANIFEST .
-  interfaces /MBTOOLS/IF_MANIFEST .
+    INTERFACES if_apack_manifest .
+    INTERFACES /mbtools/if_manifest .
 
-  types:
-    ty_tlogos TYPE RANGE OF rstlogoprop-tlogo .
+    TYPES:
+      ty_tlogos TYPE RANGE OF rstlogoprop-tlogo .
 
-  constants C_VERSION type STRING value '1.0.0' ##NO_TEXT.
-  constants C_TITLE type STRING value 'MBT Logical Object Lister' ##NO_TEXT.
-  constants C_BUNDLE_ID type I value 0 ##NO_TEXT.
-  constants C_DOWNLOAD_ID type I value 3635 ##NO_TEXT.
-  constants C_DESCRIPTION type STRING value 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT.
-  constants C_UJT_INVISIBLE_TYPES type FUNCNAME value 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
+    CONSTANTS:
+      c_version     TYPE string VALUE '1.0.0' ##NO_TEXT,
+      c_title       TYPE string VALUE 'MBT Logical Object Lister' ##NO_TEXT,
+      c_bundle_id   TYPE i VALUE 0 ##NO_TEXT,
+      c_download_id TYPE i VALUE 3635 ##NO_TEXT,
+      c_description TYPE string
+      VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT.
 
-  methods CONSTRUCTOR .
-  methods INITIALIZE
-    importing
-      !IR_TLOGOS type TY_TLOGOS
-      !IV_BW type ABAP_BOOL
-      !IV_B4H type ABAP_BOOL
-      !IV_BW4 type ABAP_BOOL
-      !IV_PROP type ABAP_BOOL
-      !IV_BYTEXT type ABAP_BOOL
-      !IV_BYNAME type ABAP_BOOL
-      !IV_BYSEQU type ABAP_BOOL
-      !IV_CACHE type ABAP_BOOL
-      !IV_SUBOBJ type ABAP_BOOL
-      !IV_BPC type ABAP_BOOL .
-  methods PBO .
-  methods PAI
-    changing
-      !CV_OK_CODE type SY-UCOMM .
-  methods SCREEN .
+    CONSTANTS:
+    c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
+
+    METHODS constructor .
+    METHODS initialize
+      IMPORTING
+        !ir_tlogos TYPE ty_tlogos
+        !iv_bw     TYPE abap_bool
+        !iv_b4h    TYPE abap_bool
+        !iv_bw4    TYPE abap_bool
+        !iv_prop   TYPE abap_bool
+        !iv_bytext TYPE abap_bool
+        !iv_byname TYPE abap_bool
+        !iv_bysequ TYPE abap_bool
+        !iv_cache  TYPE abap_bool
+        !iv_subobj TYPE abap_bool
+        !iv_bpc    TYPE abap_bool .
+    METHODS pbo .
+    METHODS pai
+      CHANGING
+        !cv_ok_code TYPE sy-ucomm .
+    METHODS screen .
   PROTECTED SECTION.
 
   PRIVATE SECTION.
 
     ALIASES apack_manifest
-      FOR zif_apack_manifest~descriptor.
+      FOR if_apack_manifest~descriptor.
     ALIASES mbt_manifest
       FOR /mbtools/if_manifest~descriptor .
 
