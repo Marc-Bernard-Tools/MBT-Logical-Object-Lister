@@ -10,8 +10,9 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+    TYPE-POOLS icon .
 
-    INTERFACES if_apack_manifest.
+    INTERFACES if_apack_manifest .
     INTERFACES /mbtools/if_manifest .
 
     TYPES:
@@ -20,10 +21,10 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
     CONSTANTS:
       c_version     TYPE string VALUE '1.0.0' ##NO_TEXT,
       c_title       TYPE string VALUE 'MBT Logical Object Lister' ##NO_TEXT,
+      c_bundle_id   TYPE i VALUE 0 ##NO_TEXT,
+      c_download_id TYPE i VALUE 3635 ##NO_TEXT,
       c_description TYPE string
-                    VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT,
-      c_bundle_id   TYPE i VALUE 0,
-      c_download_id TYPE i VALUE 3635.
+      VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT.
 
     CONSTANTS:
       c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
