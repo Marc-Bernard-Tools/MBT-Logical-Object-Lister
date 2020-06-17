@@ -59,6 +59,11 @@ CLASS /mbtools/cl_screen DEFINITION
         !ev_docu      TYPE ty_screen_field
         !ev_tool      TYPE ty_screen_field
         !ev_home      TYPE ty_screen_field .
+    CLASS-METHODS ucomm
+      IMPORTING
+        VALUE(iv_ok_code)  TYPE sy-ucomm
+        VALUE(iv_url_docs) TYPE string
+        VALUE(iv_url_tool) TYPE string.
   PROTECTED SECTION.
 ENDCLASS.
 CLASS /mbtools/cl_screen IMPLEMENTATION.
@@ -73,5 +78,7 @@ CLASS /mbtools/cl_screen IMPLEMENTATION.
   METHOD banner.
   ENDMETHOD.
   METHOD init.
+  ENDMETHOD.
+  METHOD ucomm.
   ENDMETHOD.
 ENDCLASS.
