@@ -23,17 +23,29 @@ CLASS /mbtools/cl_screen DEFINITION
     CLASS-DATA gv_version TYPE string .
 
     CLASS-METHODS class_constructor .
+    CLASS-METHODS init
+      IMPORTING
+        !ir_tool      TYPE REF TO /mbtools/cl_tools
+      EXPORTING
+        !ev_text      TYPE ty_screen_field
+        !ev_about     TYPE ty_screen_field
+        !ev_title     TYPE ty_screen_field
+        !ev_version   TYPE ty_screen_field
+        !ev_copyright TYPE ty_screen_field
+        !ev_docu      TYPE ty_screen_field
+        !ev_tool      TYPE ty_screen_field
+        !ev_home      TYPE ty_screen_field .
+    CLASS-METHODS header
+      IMPORTING
+        VALUE(iv_icon)   TYPE icon_d
+        VALUE(iv_text)   TYPE csequence OPTIONAL
+      RETURNING
+        VALUE(rv_result) TYPE ty_screen_field .
     CLASS-METHODS icon
       IMPORTING
         VALUE(iv_icon)   TYPE icon_d
         VALUE(iv_text)   TYPE csequence OPTIONAL
         VALUE(iv_quick)  TYPE csequence OPTIONAL
-      RETURNING
-        VALUE(rv_result) TYPE ty_screen_field .
-    CLASS-METHODS header
-      IMPORTING
-        VALUE(iv_icon)   TYPE icon_d
-        VALUE(iv_text)   TYPE csequence OPTIONAL
       RETURNING
         VALUE(rv_result) TYPE ty_screen_field .
     CLASS-METHODS logo
@@ -47,23 +59,16 @@ CLASS /mbtools/cl_screen DEFINITION
         VALUE(iv_show) TYPE abap_bool DEFAULT abap_true
         VALUE(iv_top)  TYPE i OPTIONAL
         VALUE(iv_left) TYPE i OPTIONAL .
-    CLASS-METHODS init
-      IMPORTING
-        !ir_tool      TYPE REF TO /mbtools/cl_tools
-      EXPORTING
-        !ev_text      TYPE ty_screen_field
-        !ev_about     TYPE ty_screen_field
-        !ev_title     TYPE ty_screen_field
-        !ev_version   TYPE ty_screen_field
-        !ev_copyright TYPE ty_screen_field
-        !ev_docu      TYPE ty_screen_field
-        !ev_tool      TYPE ty_screen_field
-        !ev_home      TYPE ty_screen_field .
     CLASS-METHODS ucomm
       IMPORTING
         VALUE(iv_ok_code)  TYPE sy-ucomm
         VALUE(iv_url_docs) TYPE string
-        VALUE(iv_url_tool) TYPE string.
+        VALUE(iv_url_tool) TYPE string .
+    CLASS-METHODS toolbar
+      IMPORTING
+        !iv_dynnr TYPE sy-dynnr
+        !iv_cprog TYPE sy-cprog DEFAULT sy-cprog
+        !iv_show  TYPE abap_bool DEFAULT abap_false.
   PROTECTED SECTION.
 ENDCLASS.
 CLASS /mbtools/cl_screen IMPLEMENTATION.
@@ -80,5 +85,7 @@ CLASS /mbtools/cl_screen IMPLEMENTATION.
   METHOD init.
   ENDMETHOD.
   METHOD ucomm.
+  ENDMETHOD.
+  METHOD toolbar.
   ENDMETHOD.
 ENDCLASS.
