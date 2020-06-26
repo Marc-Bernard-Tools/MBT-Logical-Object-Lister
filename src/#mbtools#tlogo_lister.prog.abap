@@ -91,17 +91,12 @@ SELECTION-SCREEN:
 
 DATA:
   gv_ok_code TYPE sy-ucomm,
-  gv_docu    TYPE c LENGTH 83,
-  gv_tool    TYPE c LENGTH 83,
-  gv_home    TYPE c LENGTH 83,
   go_tool    TYPE REF TO /mbtools/cl_tools,
   go_app     TYPE REF TO /mbtools/cl_bw_tlogo_lister.
 
 *-----------------------------------------------------------------------
 
 MODULE pbo_100 OUTPUT.
-
-  /mbtools/cl_screen=>banner( iv_show = abap_false ).
 
   go_app->pbo( ).
 
@@ -127,13 +122,9 @@ INITIALIZATION.
       ev_title     = scr_t900
       ev_version   = scr_t901
       ev_copyright = scr_t902
-      ev_docu      = gv_docu
-      ev_tool      = gv_tool
-      ev_home      = gv_home ).
-
-  b_docu = gv_docu.
-  b_tool = gv_tool.
-  b_home = gv_home.
+      ev_docu      = b_docu
+      ev_tool      = b_tool
+      ev_home      = b_home ).
 
   scr_tab2 = /mbtools/cl_screen=>header(
     iv_icon = icon_selection
