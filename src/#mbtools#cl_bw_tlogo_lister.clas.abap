@@ -12,24 +12,12 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
   PUBLIC SECTION.
     TYPE-POOLS icon .
 
-    INTERFACES if_apack_manifest .
-    INTERFACES /mbtools/if_manifest .
-
     TYPES:
       ty_tlogos TYPE RANGE OF rstlogoprop-tlogo .
 
     CONSTANTS:
-      c_version     TYPE string VALUE '1.0.0' ##NO_TEXT,
-      c_title       TYPE string VALUE 'MBT Logical Object Lister' ##NO_TEXT,
-      c_bundle_id   TYPE i VALUE 0 ##NO_TEXT,
-      c_download_id TYPE i VALUE 3635 ##NO_TEXT,
-      c_description TYPE string
-      VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT.
+      c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
 
-    CONSTANTS:
-    c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
-
-    METHODS constructor .
     METHODS initialize
       IMPORTING
         !ir_tlogos TYPE ty_tlogos
@@ -52,12 +40,6 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
 
   PRIVATE SECTION.
 
-    ALIASES apack_manifest
-      FOR if_apack_manifest~descriptor.
-    ALIASES mbt_manifest
-      FOR /mbtools/if_manifest~descriptor .
-
-    DATA mo_tool TYPE REF TO /mbtools/cl_tools .
     DATA mo_tree TYPE REF TO /mbtools/cl_tree .
     DATA mr_tlogos TYPE ty_tlogos .
     DATA mv_bw TYPE abap_bool  ##NEEDED.
@@ -151,14 +133,6 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD constructor.
-    CREATE OBJECT mo_tool EXPORTING io_tool = me.
-
-    apack_manifest = mo_tool->apack_manifest.
-    mbt_manifest   = mo_tool->mbt_manifest.
-  ENDMETHOD.
-
-
   METHOD initialize.
 
     CREATE OBJECT mo_tree.
@@ -205,8 +179,6 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
 
   METHOD pbo.
-
-    /mbtools/cl_screen=>banner( iv_show = abap_false ).
 
     SET PF-STATUS 'MAIN' OF PROGRAM sy-cprog.
     SET TITLEBAR  'MAIN' OF PROGRAM sy-cprog.
