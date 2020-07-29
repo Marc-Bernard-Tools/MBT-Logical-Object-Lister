@@ -1,13 +1,12 @@
-************************************************************************
-* /MBTOOLS/CL_TOOL_BW_LOL
-* MBT Logical Object Lister
-*
-* (c) MBT 2020 https://marcbernardtools.com/
-************************************************************************
 CLASS /mbtools/cl_tool_bw_lol DEFINITION
   PUBLIC
   FINAL
   CREATE PUBLIC .
+************************************************************************
+* MBT Logical Object Lister
+*
+* (c) MBT 2020 https://marcbernardtools.com/
+************************************************************************
 
   PUBLIC SECTION.
     TYPE-POOLS icon .

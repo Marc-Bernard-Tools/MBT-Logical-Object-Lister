@@ -1,5 +1,5 @@
+REPORT /mbtools/tlogo_lister.
 ************************************************************************
-* /MBTOOLS/BW_TLOGO_LISTER
 * MBT Logical Object Lister
 *
 * This tool lists all logical object types (TLOGO) for SAP BW. You can
@@ -8,7 +8,6 @@
 *
 * (c) MBT 2020 https://marcbernardtools.com/
 ************************************************************************
-REPORT /mbtools/tlogo_lister.
 
 TABLES:
   sscrfields, rstlogoprop.
