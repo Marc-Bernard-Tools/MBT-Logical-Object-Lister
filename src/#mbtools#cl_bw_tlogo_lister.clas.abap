@@ -532,7 +532,8 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         iv_title = 'Icon'(004)
         iv_text  = lo_level->text
         iv_value = lo_level->value
-        iv_level = lo_level->level ).
+        iv_level = lo_level->level
+        iv_type  = /mbtools/if_objects=>c_icon ).
     ENDIF.
 
   ENDMETHOD.
@@ -935,7 +936,8 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         iv_title = 'Respository Icon'(015)
         iv_text  = lo_level->text
         iv_value = lo_level->value
-        iv_level = lo_level->level ).
+        iv_level = lo_level->level
+        iv_type  = /mbtools/if_objects=>c_icon ).
     ENDIF.
 
     " Object
@@ -1242,7 +1244,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         iv_text  = lo_level->text
         iv_value = lo_level->value
         iv_level = lo_level->level
-        iv_type  = 'CLAS' ).
+        iv_type  = /mbtools/if_objects=>c_abap_class ).
     ENDIF.
 
   ENDMETHOD.
@@ -1275,7 +1277,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         iv_text  = lo_level->text
         iv_value = lo_level->value
         iv_level = lo_level->level
-        iv_type  = 'FUNC' ).
+        iv_type  = /mbtools/if_objects=>c_abap_function ).
     ENDIF.
 
   ENDMETHOD.
@@ -1309,7 +1311,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         iv_text  = lo_level->text
         iv_value = lo_level->value
         iv_level = lo_level->level
-        iv_type  = 'TABL' ).
+        iv_type  = /mbtools/if_objects=>c_table ).
 
     ENDIF.
 
