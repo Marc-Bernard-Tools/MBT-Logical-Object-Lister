@@ -570,33 +570,33 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     CASE iv_tlogo.
       WHEN rs_c_tlogo-infocube.
 *      ls_value-domvalue_l = rsd_c_cubetype-spo.
-*      ls_value-valpos     = 100.
+*      ls_value-valpos     = '0100'.
 *      ls_value-ddtext     = 'Semantic Partitioned Object'.
 *      COLLECT ls_value INTO lt_value.
       WHEN rs_c_tlogo-infoobject.
 *      ls_value-domvalue_l = rsd_c_objtp-attribute.
-*      ls_value-valpos     = 100.
+*      ls_value-valpos     = '0100'.
 *      ls_value-ddtext     = 'Attribute'.
 *      COLLECT ls_value INTO lt_value.
 *      ls_value-domvalue_l = rsd_c_objtp-meta.
-*      ls_value-valpos     = 101.
+*      ls_value-valpos     = '0101'.
 *      ls_value-ddtext     = 'Meta-InfoObject'.
 *      COLLECT ls_value INTO lt_value.
       WHEN rs_c_tlogo-element.
         ls_value-domvalue_l = rzd1_c_deftp-sheet.
-        ls_value-valpos     = 100.
+        ls_value-valpos     = '0100'.
         ls_value-ddtext     = 'Sheet'(020).
         COLLECT ls_value INTO lt_value.
         ls_value-domvalue_l = rzd1_c_deftp-cell.
-        ls_value-valpos     = 101.
+        ls_value-valpos     = '0101'.
         ls_value-ddtext     = 'Cell'(021).
         COLLECT ls_value INTO lt_value.
         ls_value-domvalue_l = rzd1_c_deftp-exception.
-        ls_value-valpos     = 102.
+        ls_value-valpos     = '0102'.
         ls_value-ddtext     = 'Exception'(022).
         COLLECT ls_value INTO lt_value.
         ls_value-domvalue_l = rzd1_c_deftp-condition.
-        ls_value-valpos     = 103.
+        ls_value-valpos     = '0103'.
         ls_value-ddtext     = 'Condition'(023).
         COLLECT ls_value INTO lt_value.
       WHEN ''.
@@ -951,7 +951,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     ENDIF.
 
     SELECT SINGLE objecttype FROM objh INTO lo_level->value
-      WHERE objectname = iv_tlogo ##WARN_OK.
+      WHERE objectname = iv_tlogo ##WARN_OK.            "#EC CI_GENBUFF
     IF sy-subrc = 0.
       /mbtools/cl_sap=>get_text_from_domain(
         EXPORTING
@@ -972,7 +972,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       FROM objs AS a JOIN tadir AS b
       ON a~tabname = b~obj_name
       WHERE a~objectname = iv_tlogo AND a~prim_table = 'X'
-        AND b~pgmid = 'R3TR' AND b~object = 'TABL' ##WARN_OK.
+        AND b~pgmid = 'R3TR' AND b~object = 'TABL' ##WARN_OK. "#EC CI_BUFFJOIN
     IF sy-subrc = 0.
       SELECT SINGLE ctext FROM tdevct INTO lo_level->text
         WHERE devclass = lo_level->value AND spras = sy-langu.
@@ -1001,7 +1001,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     " Dependent tables
     SELECT tabname FROM objs INTO l_tabname
       WHERE objectname = iv_tlogo AND prim_table = ''
-      ORDER BY tabname.
+      ORDER BY tabname.                                  "#EC CI_BYPASS
 
       write_table( iv_table = l_tabname
                    iv_title = 'Dependent Table'(031)
@@ -1102,9 +1102,10 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
     lo_level->next( ).
 
+    " Not a big table so reading all fields is ok
     SELECT * FROM rsprocesstypes INTO TABLE lt_variant
       WHERE category = is_category-category
-      ORDER BY display_order.
+      ORDER BY display_order.   "#EC CI_ALL_FIELDS_NEEDED "#EC CI_BYPASS
 
     " Use docu_obj field to hold description to keep it simple
     LOOP AT lt_variant ASSIGNING <ls_variant>.
