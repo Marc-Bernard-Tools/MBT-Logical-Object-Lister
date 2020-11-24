@@ -30,7 +30,7 @@
        <MAJOR>1</MAJOR>
       </SEM_VERSION>
       <GIT_URL>https://github.com/mbtools/Marc_Bernard_Tools</GIT_URL>
-      <TARGET_PACKAGE>/mbtools/bc</TARGET_PACKAGE>
+      <TARGET_PACKAGE>/MBTOOLS/BC</TARGET_PACKAGE>
      </item>
     </DEPENDENCIES>
    </PACKAGING>
