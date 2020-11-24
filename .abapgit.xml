@@ -13,6 +13,27 @@
     <item>/changelog.txt</item>
     <item>/CHANGELOG.md</item>
    </IGNORE>
+   <PACKAGING>
+    <NAME>mbtools/mbt-logical-object-lister</NAME>
+    <VERSION>1.0.0</VERSION>
+    <SEM_VERSION>
+     <MAJOR>1</MAJOR>
+    </SEM_VERSION>
+    <DESCRIPTION>Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models</DESCRIPTION>
+    <GIT_URL>https://github.com/mbtools/MBT_Logical_Object_Lister</GIT_URL>
+    <TARGET_PACKAGE>/MBTOOLS/BW_LOL</TARGET_PACKAGE>
+    <DEPENDENCIES>
+     <item>
+      <NAME>mbtools/mbt-base</NAME>
+      <VERSION>1.0.0</VERSION>
+      <SEM_VERSION>
+       <MAJOR>1</MAJOR>
+      </SEM_VERSION>
+      <GIT_URL>https://github.com/mbtools/Marc_Bernard_Tools</GIT_URL>
+      <TARGET_PACKAGE>/mbtools/bc</TARGET_PACKAGE>
+     </item>
+    </DEPENDENCIES>
+   </PACKAGING>
   </DATA>
  </asx:values>
 </asx:abap>
