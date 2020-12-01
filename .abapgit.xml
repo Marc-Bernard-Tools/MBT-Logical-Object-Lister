@@ -17,7 +17,7 @@
     <SEM_VERSION>
      <MAJOR>1</MAJOR>
     </SEM_VERSION>
-    <DESCRIPTION>Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models</DESCRIPTION>
+    <DESCRIPTION>Display the Metadata of SAP BW, SAP BPC, or SAP BW/4HANA Object Models</DESCRIPTION>
     <GIT_URL>https://github.com/mbtools/MBT_Logical_Object_Lister</GIT_URL>
     <TARGET_PACKAGE>/MBTOOLS/BW_LOL</TARGET_PACKAGE>
     <DEPENDENCIES>
