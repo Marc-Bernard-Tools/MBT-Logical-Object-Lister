@@ -56,80 +56,69 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
     DATA mt_bpc TYPE rs_t_tlogo .
     DATA mt_blacklist TYPE rs_t_tlogo .
 
-    METHODS check_b4h_mode
+    METHODS _check_b4h_mode
       CHANGING
         !co_level  TYPE REF TO /mbtools/cl_tree_level
         !cv_hidden TYPE abap_bool .
-    METHODS prepare_tree .
-    METHODS process_main
+    METHODS _prepare_tree .
+    METHODS _main
       IMPORTING
         !iv_tlogo   TYPE rstlogo
         !iv_domname TYPE domname
         !iv_level   TYPE i .
-    METHODS process_icon
+    METHODS _icon
       IMPORTING
         !iv_icon  TYPE icon_d
         !iv_level TYPE i .
-    METHODS process_properties
+    METHODS _properties
       IMPORTING
         !iv_tlogo TYPE rstlogo
         !iv_icon  TYPE icon_d
         !iv_text  TYPE rstxtlg
         !iv_level TYPE i .
-    METHODS process_anpr
+    METHODS _anpr
       IMPORTING
         !iv_level TYPE i .
-    METHODS process_anpr_group
+    METHODS _anpr_group
       IMPORTING
         !is_group TYPE cl_rsan_fct_appl_type=>ys_appltoolgroup
         !iv_level TYPE i .
-    METHODS process_anpr_tool
+    METHODS _anpr_tool
       IMPORTING
         !is_tool  TYPE cl_rsan_fct_appl_type=>ys_appltool
         !iv_level TYPE i .
-    METHODS process_rspv
+    METHODS _rspv
       IMPORTING
         !iv_level TYPE i .
-    METHODS process_rspv_category
+    METHODS _rspv_category
       IMPORTING
         !is_category TYPE rspccategory
         !iv_level    TYPE i .
-    METHODS process_rspv_type
+    METHODS _rspv_type
       IMPORTING
         !is_variant TYPE rsprocesstypes
         !iv_level   TYPE i .
-    METHODS write_table
+    METHODS _write_table
       IMPORTING
         !iv_table TYPE tabname
         !iv_title TYPE rstxtlg
         !iv_level TYPE i .
-    METHODS write_function
+    METHODS _write_function
       IMPORTING
         !iv_funct TYPE funcname
         !iv_title TYPE rstxtlg
         !iv_level TYPE i .
-    METHODS write_class
+    METHODS _write_class
       IMPORTING
         !iv_class TYPE seoclsname
         !iv_title TYPE rstxtlg
         !iv_level TYPE i .
-    METHODS prepare_tlogo_blacklist .
+    METHODS _prepare_tlogo_blacklist .
 ENDCLASS.
 
 
 
-CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
-
-
-  METHOD check_b4h_mode.
-
-    IF mv_b4h = abap_true.
-      co_level->text = co_level->text && ` ` && '[not supported in B4H mode]'(010).
-      co_level->icon = icon_dummy.
-      cv_hidden      = abap_true.
-    ENDIF.
-
-  ENDMETHOD.
+CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
 
   METHOD initialize.
@@ -153,12 +142,12 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       iv_title = 'BW Logical Objects'(001) ).
 
     " Prepare processing
-    prepare_tree( ).
+    _prepare_tree( ).
 
-    prepare_tlogo_blacklist( ).
+    _prepare_tlogo_blacklist( ).
 
     " Process sub nodes
-    process_main( iv_tlogo   = ''
+    _main( iv_tlogo   = ''
                   iv_domname = 'RSTLOGO'
                   iv_level   = 1 ).
 
@@ -187,144 +176,13 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD prepare_tlogo_blacklist.
+  METHOD screen .
 
-* See BW 7.50: CL_RS_B4HANA_UTIL=>_FILL_TLOGO_BLACKLIST
-    APPEND 'AGGR' TO mt_blacklist.
-    APPEND 'DAGR' TO mt_blacklist.
-    APPEND 'ANMO' TO mt_blacklist.
-    APPEND 'DANM' TO mt_blacklist.
-    APPEND 'ANPR' TO mt_blacklist.
-    APPEND 'DANP' TO mt_blacklist.
-    APPEND 'ANSO' TO mt_blacklist.
-    APPEND 'DANS' TO mt_blacklist.
-    APPEND 'AABC' TO mt_blacklist.
-    APPEND 'AADT' TO mt_blacklist.
-    APPEND 'AAPP' TO mt_blacklist.
-    APPEND 'AAPS' TO mt_blacklist.
-    APPEND 'ABPC' TO mt_blacklist.
-    APPEND 'ABPF' TO mt_blacklist.
-    APPEND 'ABRU' TO mt_blacklist.
-    APPEND 'ACGA' TO mt_blacklist.
-    APPEND 'ACGP' TO mt_blacklist.
-    APPEND 'ACGS' TO mt_blacklist.
-    APPEND 'ACLB' TO mt_blacklist.
-    APPEND 'ACTR' TO mt_blacklist.
-    APPEND 'ADAF' TO mt_blacklist.
-    APPEND 'ADEE' TO mt_blacklist.
-    APPEND 'ADEI' TO mt_blacklist.
-    APPEND 'ADEL' TO mt_blacklist.
-    APPEND 'ADIM' TO mt_blacklist.
-    APPEND 'ADMC' TO mt_blacklist.
-    APPEND 'ADMD' TO mt_blacklist.
-    APPEND 'ADMF' TO mt_blacklist.
-    APPEND 'ADMG' TO mt_blacklist.
-    APPEND 'ADML' TO mt_blacklist.
-    APPEND 'ADMP' TO mt_blacklist.
-    APPEND 'ADMS' TO mt_blacklist.
-    APPEND 'ADTG' TO mt_blacklist.
-    APPEND 'AFLC' TO mt_blacklist.
-    APPEND 'AFLD' TO mt_blacklist.
-    APPEND 'AFLE' TO mt_blacklist.
-    APPEND 'AFLG' TO mt_blacklist.
-    APPEND 'AJUT' TO mt_blacklist.
-    APPEND 'AKPI' TO mt_blacklist.
-    APPEND 'AMBR' TO mt_blacklist.
-    APPEND 'ARTP' TO mt_blacklist.
-    APPEND 'ASPD' TO mt_blacklist.
-    APPEND 'ASPF' TO mt_blacklist.
-    APPEND 'ASPR' TO mt_blacklist.
-    APPEND 'ATEM' TO mt_blacklist.
-    APPEND 'ATPF' TO mt_blacklist.
-    APPEND 'AWSS' TO mt_blacklist.
-    APPEND 'BAOE' TO mt_blacklist.
-    APPEND 'BITM' TO mt_blacklist.
-    APPEND 'DBIT' TO mt_blacklist.
-    APPEND 'BIXP' TO mt_blacklist.
-    APPEND 'DBIX' TO mt_blacklist.
-    APPEND 'BRSE' TO mt_blacklist.
-    APPEND 'DBRS' TO mt_blacklist.
-    APPEND 'BTMP' TO mt_blacklist.
-    APPEND 'DBTM' TO mt_blacklist.
-    APPEND 'CRWB' TO mt_blacklist.
-    APPEND 'DCRW' TO mt_blacklist.
-    APPEND 'CUBE' TO mt_blacklist.
-    APPEND 'DCUB' TO mt_blacklist.
-    APPEND 'DDAS' TO mt_blacklist.
-    APPEND 'DDDA' TO mt_blacklist.
-    APPEND 'DMMO' TO mt_blacklist.
-    APPEND 'DDMM' TO mt_blacklist.
-    APPEND 'ENHO' TO mt_blacklist.
-    APPEND 'ERPT' TO mt_blacklist.
-    APPEND 'DRPT' TO mt_blacklist.
-    APPEND 'HIER' TO mt_blacklist.
-    APPEND 'DHIE' TO mt_blacklist.
-    APPEND 'HYBR' TO mt_blacklist.
-    APPEND 'DHYB' TO mt_blacklist.
-    APPEND 'INSP' TO mt_blacklist.
-    APPEND 'IOBC' TO mt_blacklist.
-    APPEND 'DIOC' TO mt_blacklist.
-    APPEND 'ISCS' TO mt_blacklist.
-    APPEND 'DSCS' TO mt_blacklist.
-    APPEND 'ISET' TO mt_blacklist.
-    APPEND 'DISE' TO mt_blacklist.
-    APPEND 'ISFS' TO mt_blacklist.
-    APPEND 'SHFS' TO mt_blacklist.
-    APPEND 'ISIG' TO mt_blacklist.
-    APPEND 'DISG' TO mt_blacklist.
-    APPEND 'SHIG' TO mt_blacklist.
-    APPEND 'ISIP' TO mt_blacklist.
-    APPEND 'SHIP' TO mt_blacklist.
-    APPEND 'ISMP' TO mt_blacklist.
-    APPEND 'SHMP' TO mt_blacklist.
-    APPEND 'ISTD' TO mt_blacklist.
-    APPEND 'DSTD' TO mt_blacklist.
-    APPEND 'ISTS' TO mt_blacklist.
-    APPEND 'SHTR' TO mt_blacklist.
-    APPEND 'ITEM' TO mt_blacklist.
-    APPEND 'DITM' TO mt_blacklist.
-    APPEND 'KPCE' TO mt_blacklist.
-    APPEND 'DKPC' TO mt_blacklist.
-    APPEND 'KPDF' TO mt_blacklist.
-    APPEND 'DKPD' TO mt_blacklist.
-    APPEND 'LPOA' TO mt_blacklist.
-    APPEND 'LPOD' TO mt_blacklist.
-    APPEND 'MPRO' TO mt_blacklist.
-    APPEND 'DMPR' TO mt_blacklist.
-    APPEND 'ODPE' TO mt_blacklist.
-    APPEND 'ODSO' TO mt_blacklist.
-    APPEND 'DODS' TO mt_blacklist.
-    APPEND 'RAPA' TO mt_blacklist.
-    APPEND 'RASE' TO mt_blacklist.
-    APPEND 'PSA ' TO mt_blacklist.
-    APPEND 'SPOK' TO mt_blacklist.
-    APPEND 'THEM' TO mt_blacklist.
-    APPEND 'THED' TO mt_blacklist.
-    APPEND 'TMPL' TO mt_blacklist.
-    APPEND 'DTMP' TO mt_blacklist.
-    APPEND 'UPDR' TO mt_blacklist.
-    APPEND 'DUPD' TO mt_blacklist.
-    APPEND 'WWIB' TO mt_blacklist.
-    APPEND 'DWIB' TO mt_blacklist.
-    APPEND 'WWPA' TO mt_blacklist.
-    APPEND 'DWPA' TO mt_blacklist.
-    APPEND 'XCLS' TO mt_blacklist.
-    APPEND 'DXCL' TO mt_blacklist.
-    APPEND 'XLWB' TO mt_blacklist.
-    APPEND 'DXLW' TO mt_blacklist.
-    APPEND 'RDAC' TO mt_blacklist.
-    APPEND 'EREL' TO mt_blacklist.
+    DATA:
+      lv_bpc TYPE abap_bool,
+      lv_bw4 TYPE abap_bool.
 
-  ENDMETHOD.
-
-
-  METHOD prepare_tree.
-
-    " Get all TLOGOs (except for old CompositeProvider which is local only)
-    SELECT tlogo FROM rstlogoprop INTO TABLE mt_tlogo
-      WHERE tlogo <> 'COPR'.
-
-    " Get hidden BPC TLOGOs
+    " Is BPC available?
     CALL FUNCTION 'FUNCTION_EXISTS'
       EXPORTING
         funcname           = c_ujt_invisible_types
@@ -332,26 +190,36 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         function_not_exist = 1
         OTHERS             = 2.
     IF sy-subrc = 0.
-      CALL FUNCTION c_ujt_invisible_types
-        IMPORTING
-          e_t_tlogo_invisible = mt_bpc.
+      lv_bpc = abap_true.
+    ELSE.
+      lv_bpc = abap_false.
     ENDIF.
 
-    " Get tree model (for future use)
-    DATA:
-      lr_tree_model TYPE REF TO cl_rsawbn_tree_model_fl_lsys.
+    " Is this BW4?
+    SELECT SINGLE release FROM cvers INTO sy-lisel
+      WHERE component = 'DW4CORE'.
+    IF sy-subrc = 0.
+      lv_bw4 = abap_true.
+    ELSE.
+      lv_bw4 = abap_false.
+    ENDIF.
 
-    CREATE OBJECT lr_tree_model.
-
-    lr_tree_model->create_tree( ).
-    lr_tree_model->set_view( 'M' ).
-
-    mt_tree = lr_tree_model->get_tree( ).
+    LOOP AT SCREEN.
+      IF screen-group1 = 'BPC' AND lv_bpc = abap_false.
+        " screen-active = '0'.
+        screen-input = '0'.
+      ENDIF.
+      IF screen-group1 = 'BW4' AND lv_bw4 = abap_true.
+        " screen-active = '0'.
+        screen-input = '0'.
+      ENDIF.
+      MODIFY SCREEN.
+    ENDLOOP.
 
   ENDMETHOD.
 
 
-  METHOD process_anpr.
+  METHOD _anpr.
 
     DATA:
       lr_appl  TYPE REF TO cl_rsan_fct_appl_type,
@@ -361,7 +229,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
     LOOP AT lr_appl->th_appltoolgroups INTO ls_group.
 
-      process_anpr_group( is_group = ls_group
+      _anpr_group( is_group = ls_group
                           iv_level = iv_level ).
 
     ENDLOOP.
@@ -369,7 +237,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_anpr_group.
+  METHOD _anpr_group.
 
     DATA:
       lo_level    TYPE REF TO /mbtools/cl_tree_level,
@@ -396,7 +264,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
         ASSERT 0 = 1.
     ENDCASE.
 
-    check_b4h_mode( CHANGING co_level = lo_level
+    _check_b4h_mode( CHANGING co_level = lo_level
                              cv_hidden = lv_hidden ).
 
     mo_tree->add_detail(
@@ -422,7 +290,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
     LOOP AT lt_applfunc INTO ls_tool.
 
-      process_anpr_tool( is_tool  = ls_tool
+      _anpr_tool( is_tool  = ls_tool
                          iv_level = lo_level->level ).
 
     ENDLOOP.
@@ -432,7 +300,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_anpr_tool.
+  METHOD _anpr_tool.
 
     DATA:
       lo_level  TYPE REF TO /mbtools/cl_tree_level,
@@ -492,7 +360,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
     lo_level->text = ls_tool-text.
 
-    check_b4h_mode( CHANGING co_level = lo_level
+    _check_b4h_mode( CHANGING co_level = lo_level
                              cv_hidden = lv_hidden ).
 
     mo_tree->add_detail(
@@ -504,7 +372,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       iv_hidden = lv_hidden ).
 
     IF mv_prop = abap_true.
-      process_icon( iv_icon  = lo_level->icon
+      _icon( iv_icon  = lo_level->icon
                     iv_level = lo_level->level ).
     ENDIF.
 
@@ -513,7 +381,18 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_icon.
+  METHOD _check_b4h_mode.
+
+    IF mv_b4h = abap_true.
+      co_level->text = co_level->text && ` ` && '[not supported in B4H mode]'(010).
+      co_level->icon = icon_dummy.
+      cv_hidden      = abap_true.
+    ENDIF.
+
+  ENDMETHOD.
+
+
+  METHOD _icon.
 
     DATA:
       lo_level TYPE REF TO /mbtools/cl_tree_level.
@@ -539,7 +418,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_main.
+  METHOD _main.
 
     DATA:
       lo_level    TYPE REF TO /mbtools/cl_tree_level,
@@ -770,7 +649,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
           ENDCASE.
 
           IF lv_no_b4h = abap_true.
-            check_b4h_mode( CHANGING co_level = lo_level cv_hidden = lv_hidden ).
+            _check_b4h_mode( CHANGING co_level = lo_level cv_hidden = lv_hidden ).
           ENDIF.
 
         WHEN mv_bw4.
@@ -839,10 +718,10 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
       IF mv_prop = abap_true.
         IF lv_tlogo IS INITIAL.
-          process_icon( iv_icon  = lo_level->icon
+          _icon( iv_icon  = lo_level->icon
                         iv_level = lo_level->level ).
         ELSE.
-          process_properties( iv_tlogo = lv_tlogo
+          _properties( iv_tlogo = lv_tlogo
                               iv_icon  = lo_level->icon
                               iv_text  = lv_rstxtlg
                               iv_level = lo_level->level ).
@@ -852,25 +731,25 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       IF mv_subobj = abap_true.
         CASE lv_tlogo.
           WHEN rs_c_tlogo-infocube.
-            process_main( iv_tlogo   = lv_tlogo
+            _main( iv_tlogo   = lv_tlogo
                           iv_domname = 'RSCUBETYPE'
                           iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-infoobject.
-            process_main( iv_tlogo   = lv_tlogo
+            _main( iv_tlogo   = lv_tlogo
                           iv_domname = 'RSIOBJTP'
                           iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-element.
-            process_main( iv_tlogo    = lv_tlogo
+            _main( iv_tlogo    = lv_tlogo
                            iv_domname = 'RSZDEFTP'
                            iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-logsys.
-            process_main( iv_tlogo   = lv_tlogo
+            _main( iv_tlogo   = lv_tlogo
                           iv_domname = 'RSSRCTYPE_BW'
                           iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-process_variant.
-            process_rspv( iv_level = lo_level->level ).
+            _rspv( iv_level = lo_level->level ).
           WHEN rs_c_tlogo-analysis_process.
-            process_anpr( iv_level = lo_level->level ).
+            _anpr( iv_level = lo_level->level ).
         ENDCASE.
       ENDIF.
 
@@ -881,7 +760,171 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_properties.
+  METHOD _prepare_tlogo_blacklist.
+
+* See BW 7.50: CL_RS_B4HANA_UTIL=>_FILL_TLOGO_BLACKLIST
+    APPEND 'AGGR' TO mt_blacklist.
+    APPEND 'DAGR' TO mt_blacklist.
+    APPEND 'ANMO' TO mt_blacklist.
+    APPEND 'DANM' TO mt_blacklist.
+    APPEND 'ANPR' TO mt_blacklist.
+    APPEND 'DANP' TO mt_blacklist.
+    APPEND 'ANSO' TO mt_blacklist.
+    APPEND 'DANS' TO mt_blacklist.
+    APPEND 'AABC' TO mt_blacklist.
+    APPEND 'AADT' TO mt_blacklist.
+    APPEND 'AAPP' TO mt_blacklist.
+    APPEND 'AAPS' TO mt_blacklist.
+    APPEND 'ABPC' TO mt_blacklist.
+    APPEND 'ABPF' TO mt_blacklist.
+    APPEND 'ABRU' TO mt_blacklist.
+    APPEND 'ACGA' TO mt_blacklist.
+    APPEND 'ACGP' TO mt_blacklist.
+    APPEND 'ACGS' TO mt_blacklist.
+    APPEND 'ACLB' TO mt_blacklist.
+    APPEND 'ACTR' TO mt_blacklist.
+    APPEND 'ADAF' TO mt_blacklist.
+    APPEND 'ADEE' TO mt_blacklist.
+    APPEND 'ADEI' TO mt_blacklist.
+    APPEND 'ADEL' TO mt_blacklist.
+    APPEND 'ADIM' TO mt_blacklist.
+    APPEND 'ADMC' TO mt_blacklist.
+    APPEND 'ADMD' TO mt_blacklist.
+    APPEND 'ADMF' TO mt_blacklist.
+    APPEND 'ADMG' TO mt_blacklist.
+    APPEND 'ADML' TO mt_blacklist.
+    APPEND 'ADMP' TO mt_blacklist.
+    APPEND 'ADMS' TO mt_blacklist.
+    APPEND 'ADTG' TO mt_blacklist.
+    APPEND 'AFLC' TO mt_blacklist.
+    APPEND 'AFLD' TO mt_blacklist.
+    APPEND 'AFLE' TO mt_blacklist.
+    APPEND 'AFLG' TO mt_blacklist.
+    APPEND 'AJUT' TO mt_blacklist.
+    APPEND 'AKPI' TO mt_blacklist.
+    APPEND 'AMBR' TO mt_blacklist.
+    APPEND 'ARTP' TO mt_blacklist.
+    APPEND 'ASPD' TO mt_blacklist.
+    APPEND 'ASPF' TO mt_blacklist.
+    APPEND 'ASPR' TO mt_blacklist.
+    APPEND 'ATEM' TO mt_blacklist.
+    APPEND 'ATPF' TO mt_blacklist.
+    APPEND 'AWSS' TO mt_blacklist.
+    APPEND 'BAOE' TO mt_blacklist.
+    APPEND 'BITM' TO mt_blacklist.
+    APPEND 'DBIT' TO mt_blacklist.
+    APPEND 'BIXP' TO mt_blacklist.
+    APPEND 'DBIX' TO mt_blacklist.
+    APPEND 'BRSE' TO mt_blacklist.
+    APPEND 'DBRS' TO mt_blacklist.
+    APPEND 'BTMP' TO mt_blacklist.
+    APPEND 'DBTM' TO mt_blacklist.
+    APPEND 'CRWB' TO mt_blacklist.
+    APPEND 'DCRW' TO mt_blacklist.
+    APPEND 'CUBE' TO mt_blacklist.
+    APPEND 'DCUB' TO mt_blacklist.
+    APPEND 'DDAS' TO mt_blacklist.
+    APPEND 'DDDA' TO mt_blacklist.
+    APPEND 'DMMO' TO mt_blacklist.
+    APPEND 'DDMM' TO mt_blacklist.
+    APPEND 'ENHO' TO mt_blacklist.
+    APPEND 'ERPT' TO mt_blacklist.
+    APPEND 'DRPT' TO mt_blacklist.
+    APPEND 'HIER' TO mt_blacklist.
+    APPEND 'DHIE' TO mt_blacklist.
+    APPEND 'HYBR' TO mt_blacklist.
+    APPEND 'DHYB' TO mt_blacklist.
+    APPEND 'INSP' TO mt_blacklist.
+    APPEND 'IOBC' TO mt_blacklist.
+    APPEND 'DIOC' TO mt_blacklist.
+    APPEND 'ISCS' TO mt_blacklist.
+    APPEND 'DSCS' TO mt_blacklist.
+    APPEND 'ISET' TO mt_blacklist.
+    APPEND 'DISE' TO mt_blacklist.
+    APPEND 'ISFS' TO mt_blacklist.
+    APPEND 'SHFS' TO mt_blacklist.
+    APPEND 'ISIG' TO mt_blacklist.
+    APPEND 'DISG' TO mt_blacklist.
+    APPEND 'SHIG' TO mt_blacklist.
+    APPEND 'ISIP' TO mt_blacklist.
+    APPEND 'SHIP' TO mt_blacklist.
+    APPEND 'ISMP' TO mt_blacklist.
+    APPEND 'SHMP' TO mt_blacklist.
+    APPEND 'ISTD' TO mt_blacklist.
+    APPEND 'DSTD' TO mt_blacklist.
+    APPEND 'ISTS' TO mt_blacklist.
+    APPEND 'SHTR' TO mt_blacklist.
+    APPEND 'ITEM' TO mt_blacklist.
+    APPEND 'DITM' TO mt_blacklist.
+    APPEND 'KPCE' TO mt_blacklist.
+    APPEND 'DKPC' TO mt_blacklist.
+    APPEND 'KPDF' TO mt_blacklist.
+    APPEND 'DKPD' TO mt_blacklist.
+    APPEND 'LPOA' TO mt_blacklist.
+    APPEND 'LPOD' TO mt_blacklist.
+    APPEND 'MPRO' TO mt_blacklist.
+    APPEND 'DMPR' TO mt_blacklist.
+    APPEND 'ODPE' TO mt_blacklist.
+    APPEND 'ODSO' TO mt_blacklist.
+    APPEND 'DODS' TO mt_blacklist.
+    APPEND 'RAPA' TO mt_blacklist.
+    APPEND 'RASE' TO mt_blacklist.
+    APPEND 'PSA ' TO mt_blacklist.
+    APPEND 'SPOK' TO mt_blacklist.
+    APPEND 'THEM' TO mt_blacklist.
+    APPEND 'THED' TO mt_blacklist.
+    APPEND 'TMPL' TO mt_blacklist.
+    APPEND 'DTMP' TO mt_blacklist.
+    APPEND 'UPDR' TO mt_blacklist.
+    APPEND 'DUPD' TO mt_blacklist.
+    APPEND 'WWIB' TO mt_blacklist.
+    APPEND 'DWIB' TO mt_blacklist.
+    APPEND 'WWPA' TO mt_blacklist.
+    APPEND 'DWPA' TO mt_blacklist.
+    APPEND 'XCLS' TO mt_blacklist.
+    APPEND 'DXCL' TO mt_blacklist.
+    APPEND 'XLWB' TO mt_blacklist.
+    APPEND 'DXLW' TO mt_blacklist.
+    APPEND 'RDAC' TO mt_blacklist.
+    APPEND 'EREL' TO mt_blacklist.
+
+  ENDMETHOD.
+
+
+  METHOD _prepare_tree.
+
+    " Get all TLOGOs (except for old CompositeProvider which is local only)
+    SELECT tlogo FROM rstlogoprop INTO TABLE mt_tlogo
+      WHERE tlogo <> 'COPR'.
+
+    " Get hidden BPC TLOGOs
+    CALL FUNCTION 'FUNCTION_EXISTS'
+      EXPORTING
+        funcname           = c_ujt_invisible_types
+      EXCEPTIONS
+        function_not_exist = 1
+        OTHERS             = 2.
+    IF sy-subrc = 0.
+      CALL FUNCTION c_ujt_invisible_types
+        IMPORTING
+          e_t_tlogo_invisible = mt_bpc.
+    ENDIF.
+
+    " Get tree model (for future use)
+    DATA:
+      lr_tree_model TYPE REF TO cl_rsawbn_tree_model_fl_lsys.
+
+    CREATE OBJECT lr_tree_model.
+
+    lr_tree_model->create_tree( ).
+    lr_tree_model->set_view( 'M' ).
+
+    mt_tree = lr_tree_model->get_tree( ).
+
+  ENDMETHOD.
+
+
+  METHOD _properties.
 
     DATA:
       lo_level   TYPE REF TO /mbtools/cl_tree_level,
@@ -993,7 +1036,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     SELECT SINGLE tabname FROM objs INTO l_tabname
       WHERE objectname = iv_tlogo AND prim_table = 'X' ##WARN_OK.
     IF sy-subrc = 0.
-      write_table( iv_table = l_tabname
+      _write_table( iv_table = l_tabname
                    iv_title = 'Primary Table'(030)
                    iv_level = lo_level->level ).
     ENDIF.
@@ -1003,7 +1046,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
       WHERE objectname = iv_tlogo AND prim_table = ''
       ORDER BY tabname.                                  "#EC CI_BYPASS
 
-      write_table( iv_table = l_tabname
+      _write_table( iv_table = l_tabname
                    iv_title = 'Dependent Table'(031)
                    iv_level = lo_level->level ).
 
@@ -1013,7 +1056,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     SELECT SINGLE class FROM rstlogoprop INTO l_clsname
       WHERE tlogo = iv_tlogo.
 
-    write_class( iv_class = l_clsname
+    _write_class( iv_class = l_clsname
                  iv_title = 'ABAP Class'(032)
                  iv_level = lo_level->level ).
 
@@ -1021,27 +1064,27 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     SELECT SINGLE class_coll FROM rstlogoprop INTO l_clsname
       WHERE tlogo = iv_tlogo.
 
-    write_class( iv_class = l_clsname
+    _write_class( iv_class = l_clsname
                  iv_title = 'ABAP Class (Collection)'(033)
                  iv_level = lo_level->level ).
 
     " Maintenance Function
     l_funcname = 'RSO_' && iv_tlogo && '_MAINTAIN'.
 
-    write_function( iv_funct = l_funcname
+    _write_function( iv_funct = l_funcname
                     iv_title = 'Maintenance Function'(034)
                     iv_level = lo_level->level ).
 
     " Transport Functions
     l_funcname = 'RS_' && iv_tlogo && '_BEFORE_EXPORT'.
 
-    write_function( iv_funct = l_funcname
+    _write_function( iv_funct = l_funcname
                     iv_title = 'Before Export'(035)
                     iv_level = lo_level->level ).
 
     l_funcname = 'RS_' && iv_tlogo && '_AFTER_IMPORT'.
 
-    write_function( iv_funct = l_funcname
+    _write_function( iv_funct = l_funcname
                     iv_title = 'After Import'(036)
                     iv_level = lo_level->level ).
 
@@ -1050,7 +1093,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_rspv.
+  METHOD _rspv.
 
     DATA:
       lt_category TYPE TABLE OF rspccategory.
@@ -1063,7 +1106,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
     LOOP AT lt_category ASSIGNING <ls_category>.
 
-      process_rspv_category( is_category = <ls_category>
+      _rspv_category( is_category = <ls_category>
                              iv_level    = iv_level ).
 
     ENDLOOP.
@@ -1071,7 +1114,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_rspv_category.
+  METHOD _rspv_category.
 
     DATA:
       lo_level   TYPE REF TO /mbtools/cl_tree_level,
@@ -1105,7 +1148,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     " Not a big table so reading all fields is ok
     SELECT * FROM rsprocesstypes INTO TABLE lt_variant
       WHERE category = is_category-category
-      ORDER BY display_order.   "#EC CI_ALL_FIELDS_NEEDED "#EC CI_BYPASS
+      ORDER BY display_order.  "#EC CI_ALL_FIELDS_NEEDED "#EC CI_BYPASS
 
     " Use docu_obj field to hold description to keep it simple
     LOOP AT lt_variant ASSIGNING <ls_variant>.
@@ -1124,7 +1167,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
 
     LOOP AT lt_variant ASSIGNING <ls_variant>.
 
-      process_rspv_type( is_variant = <ls_variant>
+      _rspv_type( is_variant = <ls_variant>
                          iv_level   = lo_level->level ).
 
     ENDLOOP.
@@ -1134,7 +1177,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD process_rspv_type.
+  METHOD _rspv_type.
 
     DATA:
       lo_level  TYPE REF TO /mbtools/cl_tree_level,
@@ -1160,7 +1203,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
     ENDIF.
 
     IF lv_no_b4h = abap_true.
-      check_b4h_mode( CHANGING co_level  = lo_level
+      _check_b4h_mode( CHANGING co_level  = lo_level
                                cv_hidden = lv_hidden ).
     ENDIF.
 
@@ -1175,50 +1218,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD screen .
-
-    DATA:
-      lv_bpc TYPE abap_bool,
-      lv_bw4 TYPE abap_bool.
-
-    " Is BPC available?
-    CALL FUNCTION 'FUNCTION_EXISTS'
-      EXPORTING
-        funcname           = c_ujt_invisible_types
-      EXCEPTIONS
-        function_not_exist = 1
-        OTHERS             = 2.
-    IF sy-subrc = 0.
-      lv_bpc = abap_true.
-    ELSE.
-      lv_bpc = abap_false.
-    ENDIF.
-
-    " Is this BW4?
-    SELECT SINGLE release FROM cvers INTO sy-lisel
-      WHERE component = 'DW4CORE'.
-    IF sy-subrc = 0.
-      lv_bw4 = abap_true.
-    ELSE.
-      lv_bw4 = abap_false.
-    ENDIF.
-
-    LOOP AT SCREEN.
-      IF screen-group1 = 'BPC' AND lv_bpc = abap_false.
-        " screen-active = '0'.
-        screen-input = '0'.
-      ENDIF.
-      IF screen-group1 = 'BW4' AND lv_bw4 = abap_true.
-        " screen-active = '0'.
-        screen-input = '0'.
-      ENDIF.
-      MODIFY SCREEN.
-    ENDLOOP.
-
-  ENDMETHOD.
-
-
-  METHOD write_class.
+  METHOD _write_class.
 
     DATA:
       lo_level TYPE REF TO /mbtools/cl_tree_level.
@@ -1251,7 +1251,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD write_function.
+  METHOD _write_function.
 
     DATA:
       lo_level TYPE REF TO /mbtools/cl_tree_level.
@@ -1284,7 +1284,7 @@ CLASS /MBTOOLS/CL_BW_TLOGO_LISTER IMPLEMENTATION.
   ENDMETHOD.
 
 
-  METHOD write_table.
+  METHOD _write_table.
 
     DATA:
       lo_level   TYPE REF TO /mbtools/cl_tree_level.
