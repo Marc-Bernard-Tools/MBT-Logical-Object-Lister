@@ -9,7 +9,6 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
 ************************************************************************
 
   PUBLIC SECTION.
-    TYPE-POOLS icon .
 
     TYPES:
       ty_tlogos TYPE RANGE OF rstlogoprop-tlogo .
@@ -148,8 +147,8 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     " Process sub nodes
     _main( iv_tlogo   = ''
-                  iv_domname = 'RSTLOGO'
-                  iv_level   = 1 ).
+      iv_domname = 'RSTLOGO'
+      iv_level   = 1 ).
 
     " Expand complete tree
     mo_tree->expand_all( ).
@@ -179,6 +178,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
   METHOD screen .
 
     DATA:
+      lv_rel TYPE cvers-release,
       lv_bpc TYPE abap_bool,
       lv_bw4 TYPE abap_bool.
 
@@ -196,8 +196,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     ENDIF.
 
     " Is this BW4?
-    SELECT SINGLE release FROM cvers INTO sy-lisel
-      WHERE component = 'DW4CORE'.
+    SELECT SINGLE release FROM cvers INTO lv_rel WHERE component = 'DW4CORE'.
     IF sy-subrc = 0.
       lv_bw4 = abap_true.
     ELSE.
@@ -206,11 +205,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     LOOP AT SCREEN.
       IF screen-group1 = 'BPC' AND lv_bpc = abap_false.
-        " screen-active = '0'.
         screen-input = '0'.
       ENDIF.
       IF screen-group1 = 'BW4' AND lv_bw4 = abap_true.
-        " screen-active = '0'.
         screen-input = '0'.
       ENDIF.
       MODIFY SCREEN.
@@ -222,15 +219,16 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
   METHOD _anpr.
 
     DATA:
-      lr_appl  TYPE REF TO cl_rsan_fct_appl_type,
+      lo_appl  TYPE REF TO cl_rsan_fct_appl_type,
       ls_group TYPE cl_rsan_fct_appl_type=>ys_appltoolgroup.
 
-    lr_appl = cl_rsan_fct_appl_type=>get_appl_type( 'GENERIC' ).
+    lo_appl = cl_rsan_fct_appl_type=>get_appl_type( 'GENERIC' ).
 
-    LOOP AT lr_appl->th_appltoolgroups INTO ls_group.
+    LOOP AT lo_appl->th_appltoolgroups INTO ls_group.
 
-      _anpr_group( is_group = ls_group
-                          iv_level = iv_level ).
+      _anpr_group(
+        is_group = ls_group
+        iv_level = iv_level ).
 
     ENDLOOP.
 
@@ -264,8 +262,10 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
         ASSERT 0 = 1.
     ENDCASE.
 
-    _check_b4h_mode( CHANGING co_level = lo_level
-                             cv_hidden = lv_hidden ).
+    _check_b4h_mode(
+      CHANGING
+        co_level  = lo_level
+        cv_hidden = lv_hidden ).
 
     mo_tree->add_detail(
       iv_icon   = lo_level->icon
@@ -290,8 +290,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     LOOP AT lt_applfunc INTO ls_tool.
 
-      _anpr_tool( is_tool  = ls_tool
-                         iv_level = lo_level->level ).
+      _anpr_tool(
+        is_tool  = ls_tool
+        iv_level = lo_level->level ).
 
     ENDLOOP.
 
@@ -360,8 +361,10 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     lo_level->text = ls_tool-text.
 
-    _check_b4h_mode( CHANGING co_level = lo_level
-                             cv_hidden = lv_hidden ).
+    _check_b4h_mode(
+       CHANGING
+         co_level  = lo_level
+         cv_hidden = lv_hidden ).
 
     mo_tree->add_detail(
       iv_icon   = lo_level->icon
@@ -372,8 +375,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
       iv_hidden = lv_hidden ).
 
     IF mv_prop = abap_true.
-      _icon( iv_icon  = lo_level->icon
-                    iv_level = lo_level->level ).
+      _icon(
+        iv_icon  = lo_level->icon
+        iv_level = lo_level->level ).
     ENDIF.
 
     lo_level->back( ).
@@ -427,6 +431,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
       lv_title    TYPE c LENGTH 80,
       lv_hidden   TYPE rs_bool,
       lv_no_b4h   TYPE rs_bool,
+      lv_dummy    TYPE icon_d,
       lv_type     TYPE rspc_type,
       lv_tlogo    TYPE rstlogo,
       lv_rstxtlg  TYPE rstxtlg,
@@ -448,19 +453,19 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     " Additional cases (missing in domain values)
     CASE iv_tlogo.
       WHEN rs_c_tlogo-infocube.
-*      ls_value-domvalue_l = rsd_c_cubetype-spo.
-*      ls_value-valpos     = '0100'.
-*      ls_value-ddtext     = 'Semantic Partitioned Object'.
-*      COLLECT ls_value INTO lt_value.
+*      ls_value-domvalue_l = rsd_c_cubetype-spo
+*      ls_value-valpos     = '0100'
+*      ls_value-ddtext     = 'Semantic Partitioned Object'
+*      COLLECT ls_value INTO lt_value
       WHEN rs_c_tlogo-infoobject.
-*      ls_value-domvalue_l = rsd_c_objtp-attribute.
-*      ls_value-valpos     = '0100'.
-*      ls_value-ddtext     = 'Attribute'.
-*      COLLECT ls_value INTO lt_value.
-*      ls_value-domvalue_l = rsd_c_objtp-meta.
-*      ls_value-valpos     = '0101'.
-*      ls_value-ddtext     = 'Meta-InfoObject'.
-*      COLLECT ls_value INTO lt_value.
+*      ls_value-domvalue_l = rsd_c_objtp-attribute
+*      ls_value-valpos     = '0100'
+*      ls_value-ddtext     = 'Attribute'
+*      COLLECT ls_value INTO lt_value
+*      ls_value-domvalue_l = rsd_c_objtp-meta
+*      ls_value-valpos     = '0101'
+*      ls_value-ddtext     = 'Meta-InfoObject'
+*      COLLECT ls_value INTO lt_value
       WHEN rs_c_tlogo-element.
         ls_value-domvalue_l = rzd1_c_deftp-sheet.
         ls_value-valpos     = '0100'.
@@ -546,8 +551,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
         WHEN rs_c_tlogo-infocube.
           lv_title = 'Sub-object'(006).
 
-          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo     = iv_tlogo
-                                                              iv_tlogo_sub = lo_level->value ).
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon(
+            iv_tlogo     = iv_tlogo
+            iv_tlogo_sub = lo_level->value ).
 
           cl_rso_repository=>get_tlogo_description(
             EXPORTING
@@ -558,40 +564,33 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
         WHEN rs_c_tlogo-infoobject.
           lv_title = 'Sub-object'(006).
 
-          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo     = iv_tlogo
-                                                              iv_tlogo_sub = lo_level->value ).
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon(
+            iv_tlogo     = iv_tlogo
+            iv_tlogo_sub = lo_level->value ).
 
-          cl_rso_repository=>get_tlogo_description(
-            EXPORTING
-              i_tlogo       = rs_c_tlogo-infoobject
-              i_iobjtp      = lv_iobjtp
-            RECEIVING
-              r_description = lv_rstxtlg ).
+          lv_rstxtlg = cl_rso_repository=>get_tlogo_description(
+            i_tlogo       = rs_c_tlogo-infoobject
+            i_iobjtp      = lv_iobjtp ).
 
         WHEN rs_c_tlogo-element.
           lv_title = 'Sub-object'(006).
 
-          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo     = iv_tlogo
-                                                              iv_tlogo_sub = lo_level->value ).
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon(
+            iv_tlogo     = iv_tlogo
+            iv_tlogo_sub = lo_level->value ).
 
-          cl_rso_repository=>get_tlogo_description(
-            EXPORTING
-              i_tlogo              = rs_c_tlogo-element
-              i_query_element_type = lv_deftp
-            RECEIVING
-              r_description        = lv_rstxtlg ).
+          lv_rstxtlg = cl_rso_repository=>get_tlogo_description(
+            i_tlogo              = rs_c_tlogo-element
+            i_query_element_type = lv_deftp ).
 
         WHEN rs_c_tlogo-logsys.
           lv_title = 'Sub-object'(006).
 
-          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo     = iv_tlogo
-                                                              iv_tlogo_sub = lo_level->value ).
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon(
+            iv_tlogo     = iv_tlogo
+            iv_tlogo_sub = lo_level->value ).
 
-          cl_rsar_srctype=>get_description(
-            EXPORTING
-              i_srctype     = lv_srctype
-            RECEIVING
-              e_description = lv_rstxtlg ).
+          lv_rstxtlg = cl_rsar_srctype=>get_description( lv_srctype ).
 
         WHEN OTHERS.
           lv_title = 'Object'(005).
@@ -599,11 +598,8 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
           lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo = lv_tlogo ).
 
-          cl_rso_repository=>get_tlogo_description(
-            EXPORTING
-              i_tlogo       = lv_tlogo
-            RECEIVING
-              r_description = lv_rstxtlg ).
+          lv_rstxtlg = cl_rso_repository=>get_tlogo_description( lv_tlogo ).
+
       ENDCASE.
 
       " Check for hidden, local or obsolete objects
@@ -649,7 +645,10 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
           ENDCASE.
 
           IF lv_no_b4h = abap_true.
-            _check_b4h_mode( CHANGING co_level = lo_level cv_hidden = lv_hidden ).
+            _check_b4h_mode(
+              CHANGING
+                co_level  = lo_level
+                cv_hidden = lv_hidden ).
           ENDIF.
 
         WHEN mv_bw4.
@@ -683,34 +682,22 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
         CASE iv_tlogo.
           WHEN rs_c_tlogo-infocube.
             cl_rso_repository=>get_tlogo_icon(
-              EXPORTING
-                i_tlogo    = 'ZZZZ'
-                i_cubetype = 'Z'
-              RECEIVING
-                r_icon     = sy-lisel ).
+              i_tlogo    = 'ZZZZ'
+              i_cubetype = 'Z' ).
 
           WHEN rs_c_tlogo-infoobject.
             cl_rso_repository=>get_tlogo_icon(
-              EXPORTING
-                i_tlogo  = 'ZZZZ'
-                i_iobjtp = 'ZZZ'
-              RECEIVING
-                r_icon   = sy-lisel ).
+              i_tlogo  = 'ZZZZ'
+              i_iobjtp = 'ZZZ' ).
 
           WHEN rs_c_tlogo-element.
             cl_rso_repository=>get_tlogo_icon(
-              EXPORTING
-                i_tlogo              = 'ZZZZ'
-                i_query_element_type = 'ZZZ'
-              RECEIVING
-                r_icon               = sy-lisel ).
+              i_tlogo              = 'ZZZZ'
+              i_query_element_type = 'ZZZ' ).
 
           WHEN OTHERS.
-            cl_rso_repository=>get_tlogo_icon(
-              EXPORTING
-                i_tlogo = 'ZZZZ'
-              RECEIVING
-                r_icon  = sy-lisel ).
+            cl_rso_repository=>get_tlogo_icon( i_tlogo = 'ZZZZ' ).
+
         ENDCASE.
       ENDIF.
 
@@ -718,38 +705,44 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
       IF mv_prop = abap_true.
         IF lv_tlogo IS INITIAL.
-          _icon( iv_icon  = lo_level->icon
-                        iv_level = lo_level->level ).
+          _icon(
+            iv_icon  = lo_level->icon
+            iv_level = lo_level->level ).
         ELSE.
-          _properties( iv_tlogo = lv_tlogo
-                              iv_icon  = lo_level->icon
-                              iv_text  = lv_rstxtlg
-                              iv_level = lo_level->level ).
+          _properties(
+            iv_tlogo = lv_tlogo
+            iv_icon  = lo_level->icon
+            iv_text  = lv_rstxtlg
+            iv_level = lo_level->level ).
         ENDIF.
       ENDIF.
 
       IF mv_subobj = abap_true.
         CASE lv_tlogo.
           WHEN rs_c_tlogo-infocube.
-            _main( iv_tlogo   = lv_tlogo
-                          iv_domname = 'RSCUBETYPE'
-                          iv_level   = lo_level->level ).
+            _main(
+              iv_tlogo   = lv_tlogo
+              iv_domname = 'RSCUBETYPE'
+              iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-infoobject.
-            _main( iv_tlogo   = lv_tlogo
-                          iv_domname = 'RSIOBJTP'
-                          iv_level   = lo_level->level ).
+            _main(
+              iv_tlogo   = lv_tlogo
+              iv_domname = 'RSIOBJTP'
+              iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-element.
-            _main( iv_tlogo    = lv_tlogo
-                           iv_domname = 'RSZDEFTP'
-                           iv_level   = lo_level->level ).
+            _main(
+              iv_tlogo    = lv_tlogo
+              iv_domname = 'RSZDEFTP'
+              iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-logsys.
-            _main( iv_tlogo   = lv_tlogo
-                          iv_domname = 'RSSRCTYPE_BW'
-                          iv_level   = lo_level->level ).
+            _main(
+              iv_tlogo   = lv_tlogo
+              iv_domname = 'RSSRCTYPE_BW'
+              iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-process_variant.
-            _rspv( iv_level = lo_level->level ).
+            _rspv( lo_level->level ).
           WHEN rs_c_tlogo-analysis_process.
-            _anpr( iv_level = lo_level->level ).
+            _anpr( lo_level->level ).
         ENDCASE.
       ENDIF.
 
@@ -762,7 +755,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _prepare_tlogo_blacklist.
 
-* See BW 7.50: CL_RS_B4HANA_UTIL=>_FILL_TLOGO_BLACKLIST
+" See BW 7.50: CL_RS_B4HANA_UTIL=>_FILL_TLOGO_BLACKLIST
     APPEND 'AGGR' TO mt_blacklist.
     APPEND 'DAGR' TO mt_blacklist.
     APPEND 'ANMO' TO mt_blacklist.
@@ -893,6 +886,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _prepare_tree.
 
+    DATA:
+      lo_tree_model TYPE REF TO cl_rsawbn_tree_model_fl_lsys.
+
     " Get all TLOGOs (except for old CompositeProvider which is local only)
     SELECT tlogo FROM rstlogoprop INTO TABLE mt_tlogo
       WHERE tlogo <> 'COPR'.
@@ -911,15 +907,12 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     ENDIF.
 
     " Get tree model (for future use)
-    DATA:
-      lr_tree_model TYPE REF TO cl_rsawbn_tree_model_fl_lsys.
+    CREATE OBJECT lo_tree_model.
 
-    CREATE OBJECT lr_tree_model.
+    lo_tree_model->create_tree( ).
+    lo_tree_model->set_view( 'M' ).
 
-    lr_tree_model->create_tree( ).
-    lr_tree_model->set_view( 'M' ).
-
-    mt_tree = lr_tree_model->get_tree( ).
+    mt_tree = lo_tree_model->get_tree( ).
 
   ENDMETHOD.
 
@@ -928,9 +921,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     DATA:
       lo_level   TYPE REF TO /mbtools/cl_tree_level,
-      l_tabname  TYPE tabname,
-      l_funcname TYPE funcname,
-      l_clsname  TYPE seoclsname.
+      lv_tabname  TYPE tabname,
+      lv_funcname TYPE funcname,
+      lv_clsname  TYPE seoclsname.
 
     CREATE OBJECT lo_level
       EXPORTING
@@ -1033,60 +1026,67 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     ENDIF.
 
     " Primary table
-    SELECT SINGLE tabname FROM objs INTO l_tabname
+    SELECT SINGLE tabname FROM objs INTO lv_tabname
       WHERE objectname = iv_tlogo AND prim_table = 'X' ##WARN_OK.
     IF sy-subrc = 0.
-      _write_table( iv_table = l_tabname
-                   iv_title = 'Primary Table'(030)
-                   iv_level = lo_level->level ).
+      _write_table(
+        iv_table = lv_tabname
+        iv_title = 'Primary Table'(030)
+        iv_level = lo_level->level ).
     ENDIF.
 
     " Dependent tables
-    SELECT tabname FROM objs INTO l_tabname
+    SELECT tabname FROM objs INTO lv_tabname
       WHERE objectname = iv_tlogo AND prim_table = ''
       ORDER BY tabname.                                  "#EC CI_BYPASS
 
-      _write_table( iv_table = l_tabname
-                   iv_title = 'Dependent Table'(031)
-                   iv_level = lo_level->level ).
+      _write_table(
+        iv_table = lv_tabname
+        iv_title = 'Dependent Table'(031)
+        iv_level = lo_level->level ).
 
     ENDSELECT.
 
     " ABAP Class
-    SELECT SINGLE class FROM rstlogoprop INTO l_clsname
+    SELECT SINGLE class FROM rstlogoprop INTO lv_clsname
       WHERE tlogo = iv_tlogo.
 
-    _write_class( iv_class = l_clsname
-                 iv_title = 'ABAP Class'(032)
-                 iv_level = lo_level->level ).
+    _write_class(
+      iv_class = lv_clsname
+      iv_title = 'ABAP Class'(032)
+      iv_level = lo_level->level ).
 
     " ABAP Collection Class
-    SELECT SINGLE class_coll FROM rstlogoprop INTO l_clsname
+    SELECT SINGLE class_coll FROM rstlogoprop INTO lv_clsname
       WHERE tlogo = iv_tlogo.
 
-    _write_class( iv_class = l_clsname
-                 iv_title = 'ABAP Class (Collection)'(033)
-                 iv_level = lo_level->level ).
+    _write_class(
+      iv_class = lv_clsname
+      iv_title = 'ABAP Class (Collection)'(033)
+      iv_level = lo_level->level ).
 
     " Maintenance Function
-    l_funcname = 'RSO_' && iv_tlogo && '_MAINTAIN'.
+    lv_funcname = 'RSO_' && iv_tlogo && '_MAINTAIN'.
 
-    _write_function( iv_funct = l_funcname
-                    iv_title = 'Maintenance Function'(034)
-                    iv_level = lo_level->level ).
+    _write_function(
+      iv_funct = lv_funcname
+      iv_title = 'Maintenance Function'(034)
+      iv_level = lo_level->level ).
 
     " Transport Functions
-    l_funcname = 'RS_' && iv_tlogo && '_BEFORE_EXPORT'.
+    lv_funcname = 'RS_' && iv_tlogo && '_BEFORE_EXPORT'.
 
-    _write_function( iv_funct = l_funcname
-                    iv_title = 'Before Export'(035)
-                    iv_level = lo_level->level ).
+    _write_function(
+      iv_funct = lv_funcname
+      iv_title = 'Before Export'(035)
+      iv_level = lo_level->level ).
 
-    l_funcname = 'RS_' && iv_tlogo && '_AFTER_IMPORT'.
+    lv_funcname = 'RS_' && iv_tlogo && '_AFTER_IMPORT'.
 
-    _write_function( iv_funct = l_funcname
-                    iv_title = 'After Import'(036)
-                    iv_level = lo_level->level ).
+    _write_function(
+      iv_funct = lv_funcname
+      iv_title = 'After Import'(036)
+      iv_level = lo_level->level ).
 
     lo_level->back( ).
 
@@ -1106,8 +1106,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     LOOP AT lt_category ASSIGNING <ls_category>.
 
-      _rspv_category( is_category = <ls_category>
-                             iv_level    = iv_level ).
+      _rspv_category(
+        is_category = <ls_category>
+        iv_level    = iv_level ).
 
     ENDLOOP.
 
@@ -1148,12 +1149,13 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     " Not a big table so reading all fields is ok
     SELECT * FROM rsprocesstypes INTO TABLE lt_variant
       WHERE category = is_category-category
-      ORDER BY display_order.  "#EC CI_ALL_FIELDS_NEEDED "#EC CI_BYPASS
+      ORDER BY display_order. "#EC CI_ALL_FIELDS_NEEDED "#EC CI_BYPASS
+    ASSERT sy-subrc = 0.
 
     " Use docu_obj field to hold description to keep it simple
     LOOP AT lt_variant ASSIGNING <ls_variant>.
       SELECT SINGLE description FROM rsprocesstypest INTO <ls_variant>-docu_obj
-        WHERE type = <ls_variant>-type AND langu = sy-langu.
+        WHERE type = <ls_variant>-type AND langu = sy-langu. "#EC CI_SUBRC
     ENDLOOP.
 
     CASE abap_true.
@@ -1167,8 +1169,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     LOOP AT lt_variant ASSIGNING <ls_variant>.
 
-      _rspv_type( is_variant = <ls_variant>
-                         iv_level   = lo_level->level ).
+      _rspv_type(
+        is_variant = <ls_variant>
+        iv_level   = lo_level->level ).
 
     ENDLOOP.
 
@@ -1203,8 +1206,10 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     ENDIF.
 
     IF lv_no_b4h = abap_true.
-      _check_b4h_mode( CHANGING co_level  = lo_level
-                               cv_hidden = lv_hidden ).
+      _check_b4h_mode(
+        CHANGING
+          co_level  = lo_level
+          cv_hidden = lv_hidden ).
     ENDIF.
 
     mo_tree->add_detail(
@@ -1223,7 +1228,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     DATA:
       lo_level TYPE REF TO /mbtools/cl_tree_level.
 
-    CHECK NOT iv_class IS INITIAL.
+    CHECK iv_class IS NOT INITIAL.
 
     CREATE OBJECT lo_level
       EXPORTING
@@ -1256,7 +1261,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     DATA:
       lo_level TYPE REF TO /mbtools/cl_tree_level.
 
-    CHECK NOT iv_funct IS INITIAL.
+    CHECK iv_funct IS NOT INITIAL.
 
     CREATE OBJECT lo_level
       EXPORTING
@@ -1289,7 +1294,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     DATA:
       lo_level   TYPE REF TO /mbtools/cl_tree_level.
 
-    CHECK NOT iv_table IS INITIAL.
+    CHECK iv_table IS NOT INITIAL.
 
     CREATE OBJECT lo_level
       EXPORTING
@@ -1313,7 +1318,6 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
         iv_value = lo_level->value
         iv_level = lo_level->level
         iv_type  = /mbtools/if_objects=>c_table ).
-
     ENDIF.
 
   ENDMETHOD.
