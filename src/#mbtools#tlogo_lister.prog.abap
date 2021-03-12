@@ -103,7 +103,7 @@ DATA:
 
 MODULE pbo_100 OUTPUT.
 
-  go_screen->banner( iv_show = abap_false ).
+  go_screen->banner( abap_false ).
 
   go_app->pbo( ).
 
@@ -116,6 +116,8 @@ MODULE pai_100 INPUT.
 ENDMODULE.                 " PAI_0100  INPUT
 
 INITIALIZATION.
+
+  DATA lv_rel TYPE cvers-release.
 
   IF /mbtools/cl_switches=>is_active( c_title ) = abap_false.
     MESSAGE e004(/mbtools/bc) WITH c_title.
@@ -146,9 +148,10 @@ INITIALIZATION.
   scr_t200 = 'Select which objects to view and set how you'(200).
   scr_t201 = 'want the results sorted and displayed'(201).
 
+  scr_tab-prog = sy-cprog. " abaplint #1291
+
   " Is this BW4?
-  SELECT SINGLE release FROM cvers INTO sy-lisel
-    WHERE component = 'DW4CORE'.
+  SELECT SINGLE release FROM cvers INTO lv_rel WHERE component = 'DW4CORE'.
   IF sy-subrc = 0.
     p_bw = p_b4h = abap_false.
     p_bw4 = abap_true.

@@ -158,7 +158,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD pai.
 
-    mo_tree->pai( iv_ok_code = cv_ok_code ).
+    mo_tree->pai( cv_ok_code ).
 
     CLEAR cv_ok_code.
 
@@ -168,14 +168,14 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
   METHOD pbo.
 
     SET PF-STATUS 'MAIN' OF PROGRAM sy-cprog.
-    SET TITLEBAR  'MAIN' OF PROGRAM sy-cprog.
+    SET TITLEBAR 'MAIN' OF PROGRAM sy-cprog.
 
     mo_tree->display( ).
 
   ENDMETHOD.
 
 
-  METHOD screen .
+  METHOD screen.
 
     DATA:
       lv_rel TYPE cvers-release,
@@ -189,19 +189,11 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
       EXCEPTIONS
         function_not_exist = 1
         OTHERS             = 2.
-    IF sy-subrc = 0.
-      lv_bpc = abap_true.
-    ELSE.
-      lv_bpc = abap_false.
-    ENDIF.
+    lv_bpc = boolc( sy-subrc = 0 ).
 
     " Is this BW4?
     SELECT SINGLE release FROM cvers INTO lv_rel WHERE component = 'DW4CORE'.
-    IF sy-subrc = 0.
-      lv_bw4 = abap_true.
-    ELSE.
-      lv_bw4 = abap_false.
-    ENDIF.
+    lv_bw4 = boolc( sy-subrc = 0 ).
 
     LOOP AT SCREEN.
       IF screen-group1 = 'BPC' AND lv_bpc = abap_false.
@@ -446,7 +438,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
         iv_level = iv_level.
 
     " Check if domain has value table
-    IF NOT iv_domname IS INITIAL.
+    IF iv_domname IS NOT INITIAL.
       lt_value = /mbtools/cl_sap=>get_values_from_domain( iv_domname ).
     ENDIF.
 
@@ -514,7 +506,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
                ls_value-domvalue_l = 'UPDR' ) AND ls_value-ddtext NS '3.x'.
             CONCATENATE ls_value-ddtext '(3.x)' INTO ls_value-ddtext SEPARATED BY space.
           ENDIF.
-          MODIFY lt_value FROM ls_value.
+          MODIFY TABLE lt_value FROM ls_value.
         ENDLOOP.
     ENDCASE.
 
@@ -555,11 +547,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
             iv_tlogo     = iv_tlogo
             iv_tlogo_sub = lo_level->value ).
 
-          cl_rso_repository=>get_tlogo_description(
-            EXPORTING
-              i_tlogo       = rs_c_tlogo-infocube
-            RECEIVING
-              r_description = lv_rstxtlg ).
+          lv_rstxtlg = cl_rso_repository=>get_tlogo_description( rs_c_tlogo-infocube ).
 
         WHEN rs_c_tlogo-infoobject.
           lv_title = 'Sub-object'(006).
@@ -605,7 +593,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
       " Check for hidden, local or obsolete objects
       CLEAR lv_hidden.
 
-      IF NOT lv_tlogo IS INITIAL.
+      IF lv_tlogo IS NOT INITIAL.
         READ TABLE mt_bpc TRANSPORTING NO FIELDS
           WITH TABLE KEY tlogo = lv_tlogo.
         IF sy-subrc = 0.
@@ -633,7 +621,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
             WHEN rs_c_tlogo-infocube.
               lv_no_b4h = abap_true.
             WHEN rs_c_tlogo-logsys.
-              IF NOT lo_level->value CA 'OHF'. "ODP, HANA, File
+              IF lo_level->value NA 'OHF'. "ODP, HANA, File
                 lv_no_b4h = abap_true.
               ENDIF.
             WHEN OTHERS.
@@ -655,7 +643,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
           " SAP BW/4HANA Mode
           CASE iv_tlogo.
             WHEN rs_c_tlogo-logsys.
-              IF NOT lo_level->value CA 'OHF'. "ODP, HANA, File
+              IF lo_level->value NA 'OHF'. "ODP, HANA, File
                 CONTINUE. ">>>
               ENDIF.
             WHEN OTHERS.
@@ -892,6 +880,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     " Get all TLOGOs (except for old CompositeProvider which is local only)
     SELECT tlogo FROM rstlogoprop INTO TABLE mt_tlogo
       WHERE tlogo <> 'COPR'.
+    ASSERT sy-subrc = 0.
 
     " Get hidden BPC TLOGOs
     CALL FUNCTION 'FUNCTION_EXISTS'
@@ -939,7 +928,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     " BI Content
     SELECT SINGLE tlogo_d FROM rstlogoprop INTO lo_level->value
       WHERE tlogo = iv_tlogo.
-    IF NOT lo_level->value IS INITIAL.
+    IF lo_level->value IS NOT INITIAL.
       /mbtools/cl_sap=>get_text_from_domain(
         EXPORTING
           iv_domain = 'RSTLOGO_D'
@@ -1103,6 +1092,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     SELECT * FROM rspccategory INTO TABLE lt_category
       ORDER BY category.
+    ASSERT sy-subrc = 0.
 
     LOOP AT lt_category ASSIGNING <ls_category>.
 
