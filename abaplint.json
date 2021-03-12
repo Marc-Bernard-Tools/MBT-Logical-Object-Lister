@@ -735,7 +735,17 @@
 	"syntax": {
 		"errorNamespace": "^(/MBTOOLS/|LCL_|LIF_|Y|Z)",
 		"globalConstants": [
-			"icon_selection"
+			"icon_abap",
+			"icon_bw_apd_source",
+			"icon_bw_apd_target",
+			"icon_bw_apd_transformation",
+			"icon_database_table",
+			"icon_dummy",
+			"icon_folder",
+			"icon_icon_list",
+			"icon_package_standard",
+			"icon_selection",
+			"rs_c_tlogo"
 		],
 		"globalMacros": [],
 		"version": "v702"
