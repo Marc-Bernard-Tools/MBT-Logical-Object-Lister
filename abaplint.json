@@ -182,7 +182,9 @@
 			"spaces": 1
 		},
 		"cyclomatic_complexity": {
-			"exclude": [],
+			"exclude": [
+				"#mbtools#cl_bw_tlogo_lister.clas.abap"
+			],
 			"max": 20,
 			"severity": "Error"
 		},
@@ -202,7 +204,9 @@
 			"systemCall": true
 		},
 		"db_operation_in_loop": {
-			"exclude": [],
+			"exclude": [
+				"#mbtools#cl_bw_tlogo_lister.clas.abap"
+			],
 			"severity": "Error"
 		},
 		"definitions_top": {
@@ -436,7 +440,7 @@
 			"exclude": [],
 			"ignoreTestClasses": true,
 			"severity": "Warning",
-			"statements": 100
+			"statements": 200
 		},
 		"method_overwrites_builtin": {
 			"exclude": [],
