@@ -749,7 +749,8 @@
 			"icon_icon_list",
 			"icon_package_standard",
 			"icon_selection",
-			"rs_c_tlogo"
+			"rs_c_tlogo",
+			"rzd1_c_deftp"
 		],
 		"globalMacros": [],
 		"version": "v702"
