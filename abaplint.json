@@ -17,6 +17,7 @@
 		"skipGeneratedFunctionGroups": true,
 		"skipGeneratedGatewayClasses": true,
 		"skipGeneratedPersistentClasses": true,
+		"skipIncludesWithoutMain": false,
 		"useApackDependencies": false
 	},
 	"rules": {
@@ -26,9 +27,7 @@
 		},
 		"abapdoc": {
 			"checkLocal": false,
-			"exclude": [
-				".*"
-			],
+			"exclude": [".*"],
 			"severity": "Error"
 		},
 		"allowed_object_naming": {
@@ -37,13 +36,11 @@
 		},
 		"allowed_object_types": {
 			"allowed": [
-				"ACID",
-				"AVAR",
 				"CLAS",
-				"DSYS",
 				"DTEL",
 				"DEVC",
 				"DOMA",
+				"ENHC",
 				"ENHO",
 				"ENHS",
 				"ENQU",
@@ -55,6 +52,7 @@
 				"PROG",
 				"SOTS",
 				"TABL",
+				"TOBJ",
 				"TRAN",
 				"TTYP",
 				"W3MI"
@@ -68,23 +66,22 @@
 		},
 		"avoid_use": {
 			"break": true,
-			"communication": true,
 			"defaultKey": false,
 			"define": true,
 			"describeLines": true,
-			"endselect": false,
 			"exclude": [],
-			"execSQL": true,
-			"kernelCall": true,
 			"severity": "Error",
-			"statics": true,
-			"systemCall": true
+			"statics": true
 		},
 		"begin_end_names": {
 			"exclude": [],
 			"severity": "Error"
 		},
 		"begin_single_include": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"call_transaction_authority_check": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -133,6 +130,7 @@
 			"openDataset": true,
 			"readTable": true,
 			"selectSingle": false,
+			"selectTable": true,			
 			"severity": "Error",
 			"updateDatabase": true
 		},
@@ -171,9 +169,7 @@
 		},
 		"commented_code": {
 			"allowIncludeInFugr": true,
-			"exclude": [
-				"#mbtools#.*_logger.*"
-			],
+			"exclude": [],
 			"severity": "Warning"
 		},
 		"constructor_visibility_public": {
@@ -190,10 +186,27 @@
 			"max": 20,
 			"severity": "Error"
 		},
+		"dangerous_statement": {
+			"deleteDynpro": true,
+			"deleteReport": true,
+			"deleteTextpool": true,
+			"exclude": [],
+			"execSQL": true,
+			"generateDynpro": true,
+			"generateReport": true,
+			"generateSubroutine": true,
+			"importDynpro": true,
+			"insertReport": true,
+			"kernelCall": true,
+			"severity": "Error",
+			"systemCall": true
+		},
+		"db_operation_in_loop": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"definitions_top": {
-			"exclude": [
-				"#mbtools#.*_ajson.*"
-			],
+			"exclude": [],
 			"severity": "Error"
 		},
 		"description_empty": {
@@ -234,9 +247,7 @@
 			"while": true
 		},
 		"exit_or_check": {
-			"exclude": [
-				".*"
-			],
+			"exclude": [".*"],
 			"severity": "Error"
 		},
 		"exporting": {
@@ -281,6 +292,11 @@
 			"exclude": [],
 			"severity": "Error"
 		},
+		"function_module_recommendations": {
+			"exclude": [".*"],
+			"recommendations": [],
+			"severity": "Error"
+		},
 		"functional_writing": {
 			"exclude": [],
 			"ignoreExceptions": true,
@@ -291,6 +307,10 @@
 			"severity": "Error"
 		},
 		"identical_conditions": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"identical_contents": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -307,9 +327,7 @@
 			"severity": "Error"
 		},
 		"in_statement_indentation": {
-			"exclude": [
-				".*"
-			],
+			"exclude": [".*"],
 			"ignoreExceptions": true,
 			"severity": "Error"
 		},
@@ -323,6 +341,10 @@
 			"severity": "Error"
 		},
 		"inline_data_old_versions": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"intf_referencing_clas": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -389,11 +411,23 @@
 			"exclude": [],
 			"severity": "Error"
 		},
+		"many_parenthesis": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"max_one_method_parameter_per_line": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"max_one_statement": {
 			"exclude": [],
 			"severity": "Error"
 		},
 		"message_exists": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"method_implemented_twice": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -404,14 +438,16 @@
 			"severity": "Warning",
 			"statements": 100
 		},
+		"method_overwrites_builtin": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"method_parameter_names": {
 			"changing": "^C._.+$",
 			"exclude": [],
 			"exporting": "^E._.+$",
 			"ignoreExceptions": true,
-			"ignoreNames": [
-				"P_TASK"
-			],
+			"ignoreNames": [],
 			"ignorePatterns": [],
 			"importing": "^I._.+$",
 			"patternKind": "required",
@@ -473,6 +509,7 @@
 		},
 		"obsolete_statement": {
 			"add": true,
+			"communication": true,
 			"compute": true,
 			"divide": true,
 			"exclude": [],
@@ -481,6 +518,8 @@
 			"move": true,
 			"multiply": true,
 			"occurs": true,
+			"parameter": true,
+			"ranges": true,
 			"refresh": true,
 			"requested": true,
 			"setExtended": true,
@@ -488,6 +527,18 @@
 			"subtract": true,
 			"typePools": true,
 			"withHeaderLine": true
+		},
+		"omit_parameter_name": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"omit_receiving": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"parser_702_chaining": {
+			"exclude": [],
+			"severity": "Error"
 		},
 		"parser_error": {
 			"exclude": [],
@@ -505,7 +556,15 @@
 			"exclude": [],
 			"severity": "Error"
 		},
+		"prefer_raise_exception_new": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"prefer_returning_to_exporting": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"prefer_xsdbool": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -536,15 +595,19 @@
 			"severity": "Error"
 		},
 		"remove_descriptions": {
-			"exclude": [
-				".*"
-			],
+			"exclude": [".*"],
 			"ignoreExceptions": false,
 			"ignoreWorkflow": true,
 			"severity": "Error"
 		},
 		"rfc_error_handling": {
 			"exclude": [],
+			"severity": "Error"
+		},
+		"select_performance": {
+			"endSelect": true,
+			"exclude": [".*"],
+			"selectStar": true,
 			"severity": "Error"
 		},
 		"selection_screen_naming": {
@@ -593,6 +656,10 @@
 			"exclude": [],
 			"severity": "Error"
 		},
+		"sy_modification": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"tabl_enhancement_category": {
 			"exclude": [],
 			"severity": "Error"
@@ -610,11 +677,19 @@
 			"pattern": "^TY_.+$",
 			"severity": "Error"
 		},
+		"uncaught_exception": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"unknown_types": {
 			"exclude": [],
 			"severity": "Error"
 		},
 		"unreachable_code": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"unused_methods": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -629,6 +704,10 @@
 			"skipNames": []
 		},
 		"use_bool_expression": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"use_class_based_exceptions": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -655,7 +734,9 @@
 	},
 	"syntax": {
 		"errorNamespace": "^(/MBTOOLS/|LCL_|LIF_|Y|Z)",
-		"globalConstants": [],
+		"globalConstants": [
+			"icon_selection"
+		],
 		"globalMacros": [],
 		"version": "v702"
 	}
