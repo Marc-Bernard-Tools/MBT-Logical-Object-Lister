@@ -424,10 +424,8 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
       lv_hidden   TYPE rs_bool,
       lv_no_b4h   TYPE rs_bool,
       lv_dummy    TYPE icon_d,
-      lv_type     TYPE rspc_type,
       lv_tlogo    TYPE rstlogo,
       lv_rstxtlg  TYPE rstxtlg,
-      lv_cubetype TYPE rscubetype,
       lv_iobjtp   TYPE rsd_iobjtp,
       lv_deftp    TYPE rzd1_deftp,
       lv_srctype  TYPE rsa_srctype.
@@ -533,7 +531,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
       IF lo_level->text IS INITIAL.
         lo_level->text = 'No text'(011).
       ELSEIF lo_level->text CS '(->'.
-        SPLIT lo_level->text AT '(' INTO lo_level->text sy-lisel.
+        SPLIT lo_level->text AT '(' INTO lo_level->text lv_dummy.
       ELSEIF lo_level->text CS 'Configuration for'(012).
         REPLACE 'Configuration for'(012) WITH '' INTO lo_level->text.
       ENDIF.
@@ -584,7 +582,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
           lv_title = 'Object'(005).
           lv_tlogo = lo_level->value.
 
-          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( iv_tlogo = lv_tlogo ).
+          lo_level->icon = /mbtools/cl_tlogo=>get_tlogo_icon( lv_tlogo ).
 
           lv_rstxtlg = cl_rso_repository=>get_tlogo_description( lv_tlogo ).
 
