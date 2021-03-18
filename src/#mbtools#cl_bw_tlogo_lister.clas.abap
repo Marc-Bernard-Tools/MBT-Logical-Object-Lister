@@ -1137,31 +1137,33 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     " Not a big table so reading all fields is ok
     SELECT * FROM rsprocesstypes INTO TABLE lt_variant
       WHERE category = is_category-category
-      ORDER BY display_order. "#EC CI_ALL_FIELDS_NEEDED "#EC CI_BYPASS
-    ASSERT sy-subrc = 0.
+      ORDER BY display_order.  "#EC CI_ALL_FIELDS_NEEDED "#EC CI_BYPASS
+    IF sy-subrc = 0.
 
-    " Use docu_obj field to hold description to keep it simple
-    LOOP AT lt_variant ASSIGNING <ls_variant>.
-      SELECT SINGLE description FROM rsprocesstypest INTO <ls_variant>-docu_obj
-        WHERE type = <ls_variant>-type AND langu = sy-langu. "#EC CI_SUBRC
-    ENDLOOP.
+      " Use docu_obj field to hold description to keep it simple
+      LOOP AT lt_variant ASSIGNING <ls_variant>.
+        SELECT SINGLE description FROM rsprocesstypest INTO <ls_variant>-docu_obj
+          WHERE type = <ls_variant>-type AND langu = sy-langu ##SUBRC_OK.
+      ENDLOOP.
 
-    CASE abap_true.
-      WHEN mv_bytext.
-        SORT lt_variant BY docu_obj.
-      WHEN mv_byname.
-        SORT lt_variant BY type.
-      WHEN mv_bysequ.
-        " Keep order
-    ENDCASE.
+      CASE abap_true.
+        WHEN mv_bytext.
+          SORT lt_variant BY docu_obj.
+        WHEN mv_byname.
+          SORT lt_variant BY type.
+        WHEN mv_bysequ.
+          " Keep order
+      ENDCASE.
 
-    LOOP AT lt_variant ASSIGNING <ls_variant>.
+      LOOP AT lt_variant ASSIGNING <ls_variant>.
 
-      _rspv_type(
-        is_variant = <ls_variant>
-        iv_level   = lo_level->level ).
+        _rspv_type(
+          is_variant = <ls_variant>
+          iv_level   = lo_level->level ).
 
-    ENDLOOP.
+      ENDLOOP.
+
+    ENDIF.
 
     lo_level->back( ).
 

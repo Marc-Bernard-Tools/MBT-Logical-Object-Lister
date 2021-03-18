@@ -20,7 +20,7 @@ CLASS /mbtools/cl_tool_bw_lol DEFINITION
         bundle_id    TYPE i VALUE 0,
         download_id  TYPE i VALUE 3635,
         description  TYPE string
-        VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT,
+        VALUE 'Display the Metadata of SAP BW, SAP BPC, or SAP BW/4HANA Object Models' ##NO_TEXT,
         has_launch   TYPE abap_bool VALUE abap_true,
         mbt_command  TYPE string VALUE 'TLOGO',
         mbt_shortcut TYPE string VALUE 'LOL',
