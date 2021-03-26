@@ -38,6 +38,38 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
 
   PRIVATE SECTION.
 
+    " Can't use APD types since it doesn't exist in SAP BW/4HANA anymore
+    TYPES:
+      BEGIN OF ty_s_tool,
+        tool                TYPE c LENGTH 30, "rsant_fct_tool-tool,
+        tool_image          TYPE c LENGTH 80, "rsant_fct_tool-tool_image,
+        toolgroup           TYPE c LENGTH 30, "rsant_fct_tool-tool_group,
+        show_property_popup TYPE c LENGTH 1,  "rsant_fct_tool-show_popup,
+        classid             TYPE c LENGTH 30, "rsant_fct_tool-classid,
+        classid_modifier    TYPE c LENGTH 60, "rsant_fct_tool-classid_modifier,
+        text                TYPE c LENGTH 20, "rsant_fct_toolt-text,
+        tooltip             TYPE c LENGTH 80, "rsant_fct_toolt-tooltip,
+      END OF ty_s_tool .
+
+    TYPES:
+      BEGIN OF ty_s_appltool,
+        field_order TYPE i. "rsant_wb_typec-field_order
+        INCLUDE TYPE ty_s_tool AS s_tool."cl_rsan_fct_tool=>ys_tool
+    TYPES:
+      END OF ty_s_appltool .
+    TYPES:
+      ty_ts_appltool TYPE SORTED TABLE OF ty_s_appltool
+                                 WITH NON-UNIQUE KEY field_order .
+
+    TYPES:
+      BEGIN OF ty_s_appltoolgroup,
+        toolgroup   TYPE c LENGTH 30, "rsant_fct_toog-toolgroup,
+        ts_applfunc TYPE ty_ts_appltool,
+        tool_order  TYPE i, "rsant_fct_toog-tool_order,
+        text        TYPE c LENGTH 20, "rsant_fct_toogt-text,
+        tooltip     TYPE c LENGTH 80, "rsant_fct_toogt-tooltip,
+      END OF ty_s_appltoolgroup .
+
     DATA mo_tree TYPE REF TO /mbtools/cl_tree .
     DATA mr_tlogos TYPE ty_tlogos .
     DATA mv_bw TYPE abap_bool  ##NEEDED.
@@ -80,11 +112,11 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
         !iv_level TYPE i .
     METHODS _anpr_group
       IMPORTING
-        !is_group TYPE cl_rsan_fct_appl_type=>ys_appltoolgroup
+        !is_group TYPE ty_s_appltoolgroup
         !iv_level TYPE i .
     METHODS _anpr_tool
       IMPORTING
-        !is_tool  TYPE cl_rsan_fct_appl_type=>ys_appltool
+        !is_tool  TYPE ty_s_appltool
         !iv_level TYPE i .
     METHODS _rspv
       IMPORTING
@@ -211,18 +243,34 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
   METHOD _anpr.
 
     DATA:
-      lo_appl  TYPE REF TO cl_rsan_fct_appl_type,
-      ls_group TYPE cl_rsan_fct_appl_type=>ys_appltoolgroup.
+      lo_appl  TYPE REF TO object, "cl_rsan_fct_appl_type,
+      ls_group TYPE ty_s_appltoolgroup.
 
-    lo_appl = cl_rsan_fct_appl_type=>get_appl_type( 'GENERIC' ).
+    FIELD-SYMBOLS:
+      <lt_appltoolgroups> TYPE ANY TABLE,
+      <ls_group>          TYPE any.
 
-    LOOP AT lo_appl->th_appltoolgroups INTO ls_group.
+    TRY.
+        CALL METHOD ('CL_RSAN_FCT_APPL_TYPE')=>get_appl_type
+          EXPORTING
+            i_appl_type = 'GENERIC'
+          RECEIVING
+            r_appl_type = lo_appl.
 
-      _anpr_group(
-        is_group = ls_group
-        iv_level = iv_level ).
+        ASSIGN lo_appl->('TH_APPLTOOLGROUPS') TO <lt_appltoolgroups>.
+        CHECK sy-subrc = 0.
 
-    ENDLOOP.
+        LOOP AT <lt_appltoolgroups> ASSIGNING <ls_group>.
+          MOVE-CORRESPONDING <ls_group> TO ls_group.
+
+          _anpr_group(
+            is_group = ls_group
+            iv_level = iv_level ).
+
+        ENDLOOP.
+      CATCH cx_root ##NO_HANDLER.
+        " APD does not exist here
+    ENDTRY.
 
   ENDMETHOD.
 
@@ -231,8 +279,8 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     DATA:
       lo_level    TYPE REF TO /mbtools/cl_tree_level,
-      lt_applfunc TYPE STANDARD TABLE OF cl_rsan_fct_appl_type=>ys_appltool WITH DEFAULT KEY,
-      ls_tool     TYPE cl_rsan_fct_appl_type=>ys_appltool,
+      lt_applfunc TYPE STANDARD TABLE OF ty_s_appltool WITH DEFAULT KEY,
+      ls_tool     TYPE ty_s_appltool,
       lv_hidden   TYPE abap_bool.
 
     CREATE OBJECT lo_level
@@ -417,18 +465,18 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
   METHOD _main.
 
     DATA:
-      lo_level    TYPE REF TO /mbtools/cl_tree_level,
-      ls_value    TYPE /mbtools/cl_sap=>ty_domain_value,
-      lt_value    TYPE /mbtools/cl_sap=>ty_domain_values,
-      lv_title    TYPE c LENGTH 80,
-      lv_hidden   TYPE rs_bool,
-      lv_no_b4h   TYPE rs_bool,
-      lv_dummy    TYPE icon_d,
-      lv_tlogo    TYPE rstlogo,
-      lv_rstxtlg  TYPE rstxtlg,
-      lv_iobjtp   TYPE rsd_iobjtp,
-      lv_deftp    TYPE rzd1_deftp,
-      lv_srctype  TYPE rsa_srctype.
+      lo_level   TYPE REF TO /mbtools/cl_tree_level,
+      ls_value   TYPE /mbtools/cl_sap=>ty_domain_value,
+      lt_value   TYPE /mbtools/cl_sap=>ty_domain_values,
+      lv_title   TYPE c LENGTH 80,
+      lv_hidden  TYPE rs_bool,
+      lv_no_b4h  TYPE rs_bool,
+      lv_dummy   TYPE icon_d,
+      lv_tlogo   TYPE rstlogo,
+      lv_rstxtlg TYPE rstxtlg,
+      lv_iobjtp  TYPE rsd_iobjtp,
+      lv_deftp   TYPE rzd1_deftp,
+      lv_srctype TYPE rsa_srctype.
 
     CREATE OBJECT lo_level
       EXPORTING
@@ -741,7 +789,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _prepare_tlogo_blacklist.
 
-" See BW 7.50: CL_RS_B4HANA_UTIL=>_FILL_TLOGO_BLACKLIST
+    " See BW 7.50: CL_RS_B4HANA_UTIL=>_FILL_TLOGO_BLACKLIST
     APPEND 'AGGR' TO mt_blacklist.
     APPEND 'DAGR' TO mt_blacklist.
     APPEND 'ANMO' TO mt_blacklist.
@@ -907,7 +955,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
   METHOD _properties.
 
     DATA:
-      lo_level   TYPE REF TO /mbtools/cl_tree_level,
+      lo_level    TYPE REF TO /mbtools/cl_tree_level,
       lv_tabname  TYPE tabname,
       lv_funcname TYPE funcname,
       lv_clsname  TYPE seoclsname.
