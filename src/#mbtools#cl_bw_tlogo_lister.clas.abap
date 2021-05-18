@@ -1,20 +1,19 @@
 CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
   PUBLIC
   FINAL
-  CREATE PUBLIC .
+  CREATE PUBLIC.
+
 ************************************************************************
 * MBT Logical Object Lister
 *
 * (c) MBT 2020 https://marcbernardtools.com/
 ************************************************************************
-
   PUBLIC SECTION.
 
     TYPES:
-      ty_tlogos TYPE RANGE OF rstlogoprop-tlogo .
+      ty_tlogos TYPE RANGE OF rstlogoprop-tlogo.
 
-    CONSTANTS:
-      c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
+    CONSTANTS c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
 
     METHODS initialize
       IMPORTING
@@ -28,17 +27,17 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
         !iv_bysequ TYPE abap_bool
         !iv_cache  TYPE abap_bool
         !iv_subobj TYPE abap_bool
-        !iv_bpc    TYPE abap_bool .
-    METHODS pbo .
+        !iv_bpc    TYPE abap_bool.
+    METHODS pbo.
     METHODS pai
       CHANGING
-        !cv_ok_code TYPE sy-ucomm .
-    METHODS screen .
+        !cv_ok_code TYPE sy-ucomm.
+    METHODS screen.
   PROTECTED SECTION.
 
   PRIVATE SECTION.
 
-    " Can't use APD types since it doesn't exist in SAP BW/4HANA anymore
+    " Can't use APD types since they don't exist in SAP BW/4HANA anymore
     TYPES:
       BEGIN OF ty_s_tool,
         tool                TYPE c LENGTH 30, "rsant_fct_tool-tool,
@@ -55,7 +54,7 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
       BEGIN OF ty_s_appltool,
         field_order TYPE i. "rsant_wb_typec-field_order
         INCLUDE TYPE ty_s_tool AS s_tool."cl_rsan_fct_tool=>ys_tool
-    TYPES:
+      TYPES:
       END OF ty_s_appltool .
     TYPES:
       ty_ts_appltool TYPE SORTED TABLE OF ty_s_appltool
