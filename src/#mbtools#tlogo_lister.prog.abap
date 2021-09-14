@@ -6,7 +6,8 @@ REPORT /mbtools/tlogo_lister.
 * sort objects in three ways, display object properties, and check if
 * objects are compatible with SAP BW/4HANA.
 *
-* (c) MBT 2020 https://marcbernardtools.com/
+* Copyright 2021 Marc Bernard <https://marcbernardtools.com/>
+* SPDX-License-Identifier: GPL-3.0-or-later
 ************************************************************************
 
 TABLES:
