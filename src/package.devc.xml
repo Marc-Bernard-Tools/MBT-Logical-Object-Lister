@@ -4,8 +4,8 @@
   <asx:values>
    <DEVC>
     <CTEXT>MBT Logical Object Lister</CTEXT>
-    <COMP_POSID>BC</COMP_POSID>
-    <COMPONENT>HLB0009009</COMPONENT>
+    <COMP_POSID>BW</COMP_POSID>
+    <COMPONENT>ARS0000025</COMPONENT>
    </DEVC>
   </asx:values>
  </asx:abap>
