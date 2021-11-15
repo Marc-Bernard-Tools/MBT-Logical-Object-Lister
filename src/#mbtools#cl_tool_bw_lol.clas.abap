@@ -19,7 +19,7 @@ CLASS /mbtools/cl_tool_bw_lol DEFINITION
         title        TYPE string VALUE 'MBT Logical Object Lister' ##NO_TEXT,
         description  TYPE string
         VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT,
-        bundle_id    TYPE i VALUE 0,
+        bundle_id    TYPE i VALUE 2,
         download_id  TYPE i VALUE 3635,
         has_launch   TYPE abap_bool VALUE abap_true,
         mbt_command  TYPE string VALUE 'TLOGO',
