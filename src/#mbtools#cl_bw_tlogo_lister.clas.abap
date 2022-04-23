@@ -178,7 +178,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     _prepare_tlogo_blacklist( ).
 
     " Process sub nodes
-    _main( 
+    _main(
       iv_tlogo   = ''
       iv_domname = 'RSTLOGO'
       iv_level   = 1 ).
