@@ -270,7 +270,7 @@
 			"select": true,
 			"severity": "Error",
 			"try": true,
-			"when": true,
+			"when": false,
 			"while": true
 		},
 		"exit_or_check": {

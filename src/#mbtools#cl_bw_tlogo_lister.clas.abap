@@ -178,7 +178,8 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
     _prepare_tlogo_blacklist( ).
 
     " Process sub nodes
-    _main( iv_tlogo   = ''
+    _main( 
+      iv_tlogo   = ''
       iv_domname = 'RSTLOGO'
       iv_level   = 1 ).
 
@@ -603,8 +604,8 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
             iv_tlogo_sub = lo_level->value ).
 
           lv_rstxtlg = cl_rso_repository=>get_tlogo_description(
-            i_tlogo       = rs_c_tlogo-infoobject
-            i_iobjtp      = lv_iobjtp ).
+            i_tlogo  = rs_c_tlogo-infoobject
+            i_iobjtp = lv_iobjtp ).
 
         WHEN rs_c_tlogo-element.
           lv_title = 'Sub-object'(006).
@@ -765,7 +766,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
               iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-element.
             _main(
-              iv_tlogo    = lv_tlogo
+              iv_tlogo   = lv_tlogo
               iv_domname = 'RSZDEFTP'
               iv_level   = lo_level->level ).
           WHEN rs_c_tlogo-logsys.

@@ -85,8 +85,8 @@ SELECTION-SCREEN:
     SKIP,
   END OF BLOCK scr_header,
   BEGIN OF TABBED BLOCK scr_tab FOR 22 LINES,
-    TAB (40) scr_tab2 USER-COMMAND scr_push2 DEFAULT SCREEN 0200,
-    TAB (40) scr_tab9 USER-COMMAND scr_push9 DEFAULT SCREEN 0900,
+    TAB (40) scr_tab2 USER-COMMAND scr_push2 DEFAULT SCREEN 200,
+    TAB (40) scr_tab9 USER-COMMAND scr_push9 DEFAULT SCREEN 900,
   END OF BLOCK scr_tab.
 
 *-----------------------------------------------------------------------
@@ -152,7 +152,8 @@ INITIALIZATION.
   " Is this BW4?
   SELECT SINGLE release FROM cvers INTO lv_rel WHERE component = 'DW4CORE'.
   IF sy-subrc = 0.
-    p_bw = p_b4h = abap_false.
+    p_bw  = abap_false.
+    p_b4h = abap_false.
     p_bw4 = abap_true.
   ENDIF.
 
