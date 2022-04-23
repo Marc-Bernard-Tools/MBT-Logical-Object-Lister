@@ -37,9 +37,10 @@
 		"allowed_object_types": {
 			"allowed": [
 				"CLAS",
-				"DTEL",
 				"DEVC",
 				"DOMA",
+				"DTEL",
+				"DSYS",
 				"ENHC",
 				"ENHO",
 				"ENHS",
@@ -57,6 +58,10 @@
 				"TTYP",
 				"W3MI"
 			],
+			"exclude": [],
+			"severity": "Error"
+		},
+		"align_parameters": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -82,6 +87,10 @@
 			"severity": "Error"
 		},
 		"call_transaction_authority_check": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"cds_parser_error": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -114,10 +123,6 @@
 			"severity": "Error"
 		},
 		"check_include": {
-			"exclude": [],
-			"severity": "Error"
-		},
-		"check_no_handler_pragma": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -160,6 +165,10 @@
 			"severity": "Error",
 			"statics": "^G._.+$"
 		},
+		"classic_exceptions_overlap": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"cloud_types": {
 			"exclude": [],
 			"severity": "Error"
@@ -190,7 +199,8 @@
 		"cyclic_oo": {
 			"exclude": [],
 			"severity": "Error",
-			"skip": []
+			"skip": [],
+			"skipSharedMemory": true
 		},
 		"cyclomatic_complexity": {
 			"exclude": [
@@ -203,6 +213,7 @@
 			"deleteDynpro": true,
 			"deleteReport": true,
 			"deleteTextpool": true,
+			"dynamicSQL": true,
 			"exclude": [],
 			"execSQL": true,
 			"generateDynpro": true,
@@ -259,6 +270,7 @@
 			"select": true,
 			"severity": "Error",
 			"try": true,
+			"when": true,
 			"while": true
 		},
 		"exit_or_check": {
@@ -418,7 +430,7 @@
 			"severity": "Error",
 			"test": "^LTCL_.+$"
 		},
-		"local_testclass_location": {
+		"local_testclass_consistency": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -509,14 +521,31 @@
 			"logic": "less",
 			"severity": "Error"
 		},
+		"no_aliases": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"no_chained_assignment": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"no_inline_in_optional_branches": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"no_public_attributes": {
 			"allowReadOnly": true,
 			"exclude": [],
+			"ignoreTestClasses": false,
 			"severity": "Error"
 		},
 		"no_yoda_conditions": {
 			"exclude": [],
   			"onlyConstants": true,
+			"severity": "Error"
+		},
+		"nrob_consistency": {
+			"exclude": [],
 			"severity": "Error"
 		},
 		"object_naming": {
@@ -558,6 +587,7 @@
 			"move": true,
 			"multiply": true,
 			"occurs": true,
+			"occurences": true,
 			"pack": true,
 			"parameter": true,
 			"ranges": true,
@@ -573,6 +603,10 @@
 			"withHeaderLine": true
 		},
 		"omit_parameter_name": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"omit_preceding_zeros": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -592,7 +626,12 @@
 			"exclude": [],
 			"severity": "Error"
 		},
-		"pragma_placement": {
+		"pragma_style": {
+			"exclude": [],
+			"severity": "Error",
+			"style": "upper"
+		},
+		"prefer_corresponding": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -687,6 +726,10 @@
 			"exclude": [],
 			"severity": "Error"
 		},
+		"slow_parameter_passing": {
+			"exclude": [],
+			"severity": "Error"
+		},
 		"space_before_colon": {
 			"exclude": [],
 			"severity": "Error"
@@ -702,6 +745,10 @@
 			"severity": "Error"
 		},
 		"start_at_tab": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"static_call_via_instance": {
 			"exclude": [],
 			"severity": "Error"
 		},
@@ -735,6 +782,16 @@
 			"severity": "Error"
 		},
 		"unknown_types": {
+			"exclude": [],
+			"severity": "Error"
+		},
+		"unnecessary_chaining": {
+			"exclude": [
+				".*"
+			],
+			"severity": "Error"
+		},
+		"unnecessary_pragma": {
 			"exclude": [],
 			"severity": "Error"
 		},
