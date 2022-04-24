@@ -39,8 +39,8 @@
 				"CLAS",
 				"DEVC",
 				"DOMA",
-				"DTEL",
 				"DSYS",
+				"DTEL",
 				"ENHC",
 				"ENHO",
 				"ENHS",
@@ -51,6 +51,7 @@
 				"NSPC",
 				"PARA",
 				"PROG",
+        "SHLP",
 				"SOTS",
 				"TABL",
 				"TOBJ",
@@ -786,9 +787,7 @@
 			"severity": "Error"
 		},
 		"unnecessary_chaining": {
-			"exclude": [
-				".*"
-			],
+			"exclude": [".*"],
 			"severity": "Error"
 		},
 		"unnecessary_pragma": {
