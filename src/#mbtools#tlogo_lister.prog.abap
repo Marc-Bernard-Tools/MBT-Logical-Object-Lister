@@ -147,8 +147,6 @@ INITIALIZATION.
   scr_t200 = 'Select which objects to view and set how you'(200).
   scr_t201 = 'want the results sorted and displayed'(201).
 
-  scr_tab-prog = sy-cprog. " abaplint #1291
-
   " Is this BW4?
   SELECT SINGLE release FROM cvers INTO lv_rel WHERE component = 'DW4CORE'.
   IF sy-subrc = 0.
