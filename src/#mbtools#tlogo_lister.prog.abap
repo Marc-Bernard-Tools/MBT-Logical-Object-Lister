@@ -7,7 +7,7 @@ REPORT /mbtools/tlogo_lister.
 * objects are compatible with SAP BW/4HANA.
 *
 * Copyright 2021 Marc Bernard <https://marcbernardtools.com/>
-* SPDX-License-Identifier: GPL-3.0-or-later
+* SPDX-License-Identifier: GPL-3.0-only
 ************************************************************************
 
 TABLES:
