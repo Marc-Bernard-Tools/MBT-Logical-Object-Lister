@@ -1,9 +1,9 @@
 ![Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fshield.abap.space%2Fversion-shield-json%2Fgithub%2FMarc-Bernard-Tools%2FMBT-Logical-Object-Lister%2Fsrc%2F%2523mbtools%2523cl_tool_bw_lol.clas.abap&label=Version&color=blue)
 
 [![License](https://img.shields.io/github/license/Marc-Bernard-Tools/MBT-Logical-Object-Lister?label=License&color=green)](LICENSE)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?color=green)](CODE_OF_CONDUCT.md)
 [![REUSE Status](https://api.reuse.software/badge/github.com/Marc-Bernard-Tools/MBT-Logical-Object-Lister)](https://api.reuse.software/info/github.com/Marc-Bernard-Tools/MBT-Logical-Object-Lister)
 [![ClearlyDefined Score](https://img.shields.io/clearlydefined/score/git/github/marc-bernard-tools/MBT-Logical-Object-Lister/f17ace2d09a4becd7e7052cdd7efcac16342530d?label=ClearlyDefined%20Score)](https://clearlydefined.io/definitions/git/github/marc-bernard-tools/MBT-Logical-Object-Lister/f17ace2d09a4becd7e7052cdd7efcac16342530d)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg?color=green)](CODE_OF_CONDUCT.md)
 
 # MBT Logical Object Lister
 
@@ -20,13 +20,14 @@ For details, visit **[Marc Bernard Tools](https://marcbernardtools.com/downloads
 Use the [MBT Installer](https://marcbernardtools.com/downloads/mbt-installer/) to deploy the repository to your SAP system. For more information, see 
 [Installation Instructions](https://marcbernardtools.com/docs/marc-bernard-tools/installation/).
 
-## Contributions
-
-All contributions are welcome! Just fork this repo and create a pull request. 
+All contributions are welcome! Read our [Contribution Guidelines](CONTRIBUTING.md), fork this repo, and create a pull request.
 
 ## About
 
-<p>Made with :heart: in Canada</p>
-<p>Copyright © 2021 <a href="https://marcbernardtools.com/">Marc Bernard Tools</a></p>
-<p>Follow <a href="https://twitter.com/marcfbe">@marcfbe</a> on Twitter</p>
+Made with :heart: in Canada
+
+Copyright 2021 Marc Bernard <https://marcbernardtools.com/>
+
+Follow [@marcfbe](https://twitter.com/marcfbe) on Twitter
+
 <p><a href="https://marcbernardtools.com/"><img width="160" height="65" src="https://marcbernardtools.com/info/MBT_Logo_640x250_on_Gray.png" alt="MBT Logo"></a></p>
