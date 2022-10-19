@@ -13,14 +13,14 @@
    </REQUIREMENTS>
    <PACKAGING>
     <NAME>mbt-logical-object-lister</NAME>
-    <VERSION>1.3.0</VERSION>
+    <VERSION>1.3.1</VERSION>
     <DESCRIPTION>Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models</DESCRIPTION>
     <TARGET_PACKAGE>/MBTOOLS/BW-LOL</TARGET_PACKAGE>
     <LOGO>/MBTOOLS/MBT_LOGICAL_OBJECT_LISTER_TN</LOGO>
     <DEPENDENCIES>
      <item>
       <NAME>mbt-base</NAME>
-      <VERSION>1.3.0</VERSION>
+      <VERSION>1.3.1</VERSION>
      </item>
     </DEPENDENCIES>
    </PACKAGING>
