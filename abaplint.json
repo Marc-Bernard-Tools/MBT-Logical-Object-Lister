@@ -32,7 +32,9 @@
     "abapdoc": {
       "checkLocal": false,
       "classDefinition": false,
-      "exclude": [".*"],
+      "exclude": [
+        ".*"
+      ],
       "interfaceDefinition": false,
       "severity": "Error"
     },
@@ -293,7 +295,7 @@
       "select": true,
       "severity": "Error",
       "try": true,
-      "when": false,
+      "when": true,
       "while": true
     },
     "exit_or_check": {
@@ -345,7 +347,9 @@
       "severity": "Error"
     },
     "function_module_recommendations": {
-      "exclude": [".*"],
+      "exclude": [
+        ".*"
+      ],
       "recommendations": [],
       "severity": "Error"
     },
@@ -384,7 +388,9 @@
     },
     "in_statement_indentation": {
       "blockStatements": 2,
-      "exclude": [".*"],
+      "exclude": [
+        ".*"
+      ],
       "ignoreExceptions": true,
       "severity": "Error"
     },
@@ -712,7 +718,9 @@
       "severity": "Error"
     },
     "remove_descriptions": {
-      "exclude": [".*"],
+      "exclude": [
+        ".*"
+      ],
       "ignoreExceptions": false,
       "ignoreWorkflow": true,
       "severity": "Error"
@@ -722,12 +730,14 @@
       "severity": "Error"
     },
     "select_add_order_by": {
-      "exclude": [".*"],
+      "exclude": [
+        ".*"
+      ],
       "severity": "Error"
     },
     "select_performance": {
       "endSelect": true,
-      "exclude": [".*"],
+      "exclude": [],
       "selectStar": true,
       "severity": "Error",
       "starOkayIfFewColumns": 10
