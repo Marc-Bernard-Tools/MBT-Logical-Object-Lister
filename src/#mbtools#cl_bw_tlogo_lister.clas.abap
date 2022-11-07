@@ -11,8 +11,7 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
 ************************************************************************
   PUBLIC SECTION.
 
-    TYPES:
-      ty_tlogos TYPE RANGE OF rstlogoprop-tlogo.
+    TYPES ty_tlogos TYPE RANGE OF rstlogoprop-tlogo.
 
     CONSTANTS c_ujt_invisible_types TYPE funcname VALUE 'UJT_TLOGO_TYPE_DETAILS' ##NO_TEXT.
 
@@ -49,17 +48,16 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
         classid_modifier    TYPE c LENGTH 60, "rsant_fct_tool-classid_modifier,
         text                TYPE c LENGTH 20, "rsant_fct_toolt-text,
         tooltip             TYPE c LENGTH 80, "rsant_fct_toolt-tooltip,
-      END OF ty_s_tool .
+      END OF ty_s_tool.
 
     TYPES:
       BEGIN OF ty_s_appltool,
         field_order TYPE i. "rsant_wb_typec-field_order
         INCLUDE TYPE ty_s_tool AS s_tool."cl_rsan_fct_tool=>ys_tool
     TYPES:
-      END OF ty_s_appltool .
-    TYPES:
-      ty_ts_appltool TYPE SORTED TABLE OF ty_s_appltool
-                                 WITH NON-UNIQUE KEY field_order .
+      END OF ty_s_appltool.
+    TYPES ty_ts_appltool TYPE SORTED TABLE OF ty_s_appltool
+                                 WITH NON-UNIQUE KEY field_order.
 
     TYPES:
       BEGIN OF ty_s_appltoolgroup,
@@ -68,83 +66,83 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
         tool_order  TYPE i, "rsant_fct_toog-tool_order,
         text        TYPE c LENGTH 20, "rsant_fct_toogt-text,
         tooltip     TYPE c LENGTH 80, "rsant_fct_toogt-tooltip,
-      END OF ty_s_appltoolgroup .
+      END OF ty_s_appltoolgroup.
 
-    DATA mo_tree TYPE REF TO /mbtools/cl_tree .
-    DATA mr_tlogos TYPE ty_tlogos .
+    DATA mo_tree TYPE REF TO /mbtools/cl_tree.
+    DATA mr_tlogos TYPE ty_tlogos.
     DATA mv_bw TYPE abap_bool  ##NEEDED.
-    DATA mv_b4h TYPE abap_bool .
-    DATA mv_bw4 TYPE abap_bool .
-    DATA mv_prop TYPE abap_bool .
-    DATA mv_bytext TYPE abap_bool .
-    DATA mv_byname TYPE abap_bool .
-    DATA mv_bysequ TYPE abap_bool .
-    DATA mv_cache TYPE abap_bool .
-    DATA mv_subobj TYPE abap_bool .
-    DATA mv_bpc TYPE abap_bool .
+    DATA mv_b4h TYPE abap_bool.
+    DATA mv_bw4 TYPE abap_bool.
+    DATA mv_prop TYPE abap_bool.
+    DATA mv_bytext TYPE abap_bool.
+    DATA mv_byname TYPE abap_bool.
+    DATA mv_bysequ TYPE abap_bool.
+    DATA mv_cache TYPE abap_bool.
+    DATA mv_subobj TYPE abap_bool.
+    DATA mv_bpc TYPE abap_bool.
     DATA mt_tree TYPE rsawbn_t_tree  ##NEEDED.
-    DATA mt_tlogo TYPE rs_t_tlogo .
-    DATA mt_bpc TYPE rs_t_tlogo .
-    DATA mt_blacklist TYPE rs_t_tlogo .
+    DATA mt_tlogo TYPE rs_t_tlogo.
+    DATA mt_bpc TYPE rs_t_tlogo.
+    DATA mt_blacklist TYPE rs_t_tlogo.
 
     METHODS _check_b4h_mode
       CHANGING
         !co_level  TYPE REF TO /mbtools/cl_tree_level
-        !cv_hidden TYPE abap_bool .
-    METHODS _prepare_tree .
+        !cv_hidden TYPE abap_bool.
+    METHODS _prepare_tree.
     METHODS _main
       IMPORTING
         !iv_tlogo   TYPE rstlogo
         !iv_domname TYPE domname
-        !iv_level   TYPE i .
+        !iv_level   TYPE i.
     METHODS _icon
       IMPORTING
         !iv_icon  TYPE icon_d
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _properties
       IMPORTING
         !iv_tlogo TYPE rstlogo
         !iv_icon  TYPE icon_d
         !iv_text  TYPE rstxtlg
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _anpr
       IMPORTING
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _anpr_group
       IMPORTING
         !is_group TYPE ty_s_appltoolgroup
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _anpr_tool
       IMPORTING
         !is_tool  TYPE ty_s_appltool
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _rspv
       IMPORTING
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _rspv_category
       IMPORTING
         !is_category TYPE rspccategory
-        !iv_level    TYPE i .
+        !iv_level    TYPE i.
     METHODS _rspv_type
       IMPORTING
         !is_variant TYPE rsprocesstypes
-        !iv_level   TYPE i .
+        !iv_level   TYPE i.
     METHODS _write_table
       IMPORTING
         !iv_table TYPE tabname
         !iv_title TYPE rstxtlg
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _write_function
       IMPORTING
         !iv_funct TYPE funcname
         !iv_title TYPE rstxtlg
-        !iv_level TYPE i .
+        !iv_level TYPE i.
     METHODS _write_class
       IMPORTING
         !iv_class TYPE seoclsname
         !iv_title TYPE rstxtlg
-        !iv_level TYPE i .
-    METHODS _prepare_tlogo_blacklist .
+        !iv_level TYPE i.
+    METHODS _prepare_tlogo_blacklist.
 ENDCLASS.
 
 
@@ -439,8 +437,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _icon.
 
-    DATA:
-      lo_level TYPE REF TO /mbtools/cl_tree_level.
+    DATA lo_level TYPE REF TO /mbtools/cl_tree_level.
 
     CREATE OBJECT lo_level
       EXPORTING
@@ -921,8 +918,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _prepare_tree.
 
-    DATA:
-      lo_tree_model TYPE REF TO cl_rsawbn_tree_model_fl_lsys.
+    DATA lo_tree_model TYPE REF TO cl_rsawbn_tree_model_fl_lsys.
 
     " Get all TLOGOs (except for old CompositeProvider which is local only)
     SELECT tlogo FROM rstlogoprop INTO TABLE mt_tlogo
@@ -1131,11 +1127,9 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _rspv.
 
-    DATA:
-      lt_category TYPE TABLE OF rspccategory.
+    DATA lt_category TYPE TABLE OF rspccategory.
 
-    FIELD-SYMBOLS:
-      <ls_category> TYPE rspccategory.
+    FIELD-SYMBOLS <ls_category> TYPE rspccategory.
 
     SELECT * FROM rspccategory INTO TABLE lt_category
       ORDER BY category.
@@ -1158,8 +1152,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
       lo_level   TYPE REF TO /mbtools/cl_tree_level,
       lt_variant TYPE TABLE OF rsprocesstypes.
 
-    FIELD-SYMBOLS:
-      <ls_variant> TYPE rsprocesstypes.
+    FIELD-SYMBOLS <ls_variant> TYPE rsprocesstypes.
 
     CREATE OBJECT lo_level
       EXPORTING
@@ -1297,8 +1290,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _write_function.
 
-    DATA:
-      lo_level TYPE REF TO /mbtools/cl_tree_level.
+    DATA lo_level TYPE REF TO /mbtools/cl_tree_level.
 
     CHECK iv_funct IS NOT INITIAL.
 
@@ -1330,8 +1322,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _write_table.
 
-    DATA:
-      lo_level   TYPE REF TO /mbtools/cl_tree_level.
+    DATA lo_level TYPE REF TO /mbtools/cl_tree_level.
 
     CHECK iv_table IS NOT INITIAL.
 

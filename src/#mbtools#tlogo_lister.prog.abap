@@ -23,8 +23,7 @@ SELECTION-SCREEN:
       COMMENT /1(77) sc_t201,
     END OF BLOCK b200,
     BEGIN OF BLOCK b210 WITH FRAME.
-SELECT-OPTIONS:
-  s_tlogo FOR rstlogoprop-tlogo.
+SELECT-OPTIONS s_tlogo FOR rstlogoprop-tlogo.
 PARAMETERS:
   p_subobj AS CHECKBOX DEFAULT 'X',
   p_bpc    AS CHECKBOX MODIF ID bpc.
