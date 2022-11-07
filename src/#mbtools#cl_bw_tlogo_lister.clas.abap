@@ -1257,8 +1257,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
   METHOD _write_class.
 
-    DATA:
-      lo_level TYPE REF TO /mbtools/cl_tree_level.
+    DATA lo_level TYPE REF TO /mbtools/cl_tree_level.
 
     CHECK iv_class IS NOT INITIAL.
 
