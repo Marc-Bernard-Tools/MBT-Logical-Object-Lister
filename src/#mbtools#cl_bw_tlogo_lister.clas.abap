@@ -323,7 +323,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
         SORT lt_applfunc BY text.
       WHEN mv_byname.
         SORT lt_applfunc BY tool.
-      WHEN mv_bysequ.
+        "WHEN mv_bysequ
         " keep it
     ENDCASE.
 
@@ -488,12 +488,12 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
 
     " Additional cases (missing in domain values)
     CASE iv_tlogo.
-      WHEN rs_c_tlogo-infocube.
+*      WHEN rs_c_tlogo-infocube
 *      ls_value-domvalue_l = rsd_c_cubetype-spo
 *      ls_value-valpos     = '0100'
 *      ls_value-ddtext     = 'Semantic Partitioned Object'
 *      COLLECT ls_value INTO lt_value
-      WHEN rs_c_tlogo-infoobject.
+*      WHEN rs_c_tlogo-infoobject
 *      ls_value-domvalue_l = rsd_c_objtp-attribute
 *      ls_value-valpos     = '0100'
 *      ls_value-ddtext     = 'Attribute'
@@ -1193,7 +1193,7 @@ CLASS /mbtools/cl_bw_tlogo_lister IMPLEMENTATION.
           SORT lt_variant BY docu_obj.
         WHEN mv_byname.
           SORT lt_variant BY type.
-        WHEN mv_bysequ.
+          "WHEN mv_bysequ
           " Keep order
       ENDCASE.
 
