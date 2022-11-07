@@ -737,7 +737,9 @@
     },
     "select_performance": {
       "endSelect": true,
-      "exclude": [],
+      "exclude": [
+        ".*"
+      ],
       "selectStar": true,
       "severity": "Error",
       "starOkayIfFewColumns": 10
