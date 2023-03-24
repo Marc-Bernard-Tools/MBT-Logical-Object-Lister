@@ -1,7 +1,7 @@
 ![Version](https://img.shields.io/endpoint?url=https%3A%2F%2Fshield.abap.space%2Fversion-shield-json%2Fgithub%2FMarc-Bernard-Tools%2FMBT-Logical-Object-Lister%2Fsrc%2F%2523mbtools%2523cl_tool_bw_lol.clas.abap&label=Version&color=blue)
 
 [![License](https://img.shields.io/github/license/Marc-Bernard-Tools/MBT-Logical-Object-Lister?label=License&color=green)](LICENSE)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?color=green)](CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg?color=green)](https://github.com/Marc-Bernard-Tools/.github/blob/main/CODE_OF_CONDUCT.md)
 [![REUSE Status](https://api.reuse.software/badge/github.com/Marc-Bernard-Tools/MBT-Logical-Object-Lister)](https://api.reuse.software/info/github.com/Marc-Bernard-Tools/MBT-Logical-Object-Lister)
 [![ClearlyDefined Score](https://img.shields.io/clearlydefined/score/git/github/marc-bernard-tools/MBT-Logical-Object-Lister/5ef5948434ead41e2821b3e46ab37dd31ab5fe12?label=ClearlyDefined%20Score)](https://clearlydefined.io/definitions/git/github/marc-bernard-tools/MBT-Logical-Object-Lister/5ef5948434ead41e2821b3e46ab37dd31ab5fe12)
 
