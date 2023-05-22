@@ -15,7 +15,7 @@ CLASS /mbtools/cl_tool_bw_lol DEFINITION
 
     CONSTANTS:
       BEGIN OF c_tool,
-        version      TYPE string VALUE '1.3.1' ##NO_TEXT,
+        version      TYPE string VALUE '1.4.0' ##NO_TEXT,
         title        TYPE string VALUE 'MBT Logical Object Lister' ##NO_TEXT,
         description  TYPE string
         VALUE 'Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models' ##NO_TEXT,
