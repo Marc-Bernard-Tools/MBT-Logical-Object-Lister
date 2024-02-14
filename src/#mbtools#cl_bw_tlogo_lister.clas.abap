@@ -54,7 +54,7 @@ CLASS /mbtools/cl_bw_tlogo_lister DEFINITION
       BEGIN OF ty_s_appltool,
         field_order TYPE i. "rsant_wb_typec-field_order
         INCLUDE TYPE ty_s_tool AS s_tool."cl_rsan_fct_tool=>ys_tool
-    TYPES:
+    TYPES
       END OF ty_s_appltool.
     TYPES ty_ts_appltool TYPE SORTED TABLE OF ty_s_appltool
                                  WITH NON-UNIQUE KEY field_order.
