@@ -2,6 +2,7 @@
 <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
  <asx:values>
   <DATA>
+   <NAME>mbt-logical-object-lister</NAME>
    <MASTER_LANGUAGE>E</MASTER_LANGUAGE>
    <STARTING_FOLDER>/src/</STARTING_FOLDER>
    <FOLDER_LOGIC>PREFIX</FOLDER_LOGIC>
@@ -11,9 +12,10 @@
      <MIN_RELEASE>731</MIN_RELEASE>
     </item>
    </REQUIREMENTS>
+   <VERSION_CONSTANT>/MBTOOLS/CL_TOOL_BW_LOL=&gt;C_TOOL-VERSION</VERSION_CONSTANT>
    <PACKAGING>
     <NAME>mbt-logical-object-lister</NAME>
-    <VERSION>1.4.0</VERSION>
+    <VERSION>1.4.1</VERSION>
     <DESCRIPTION>Display the metadata of SAP BW, SAP BPC, or SAP BW/4HANA object models</DESCRIPTION>
     <TARGET_PACKAGE>/MBTOOLS/BW-LOL</TARGET_PACKAGE>
     <LOGO>/MBTOOLS/MBT_LOGICAL_OBJECT_LISTER_TN</LOGO>
