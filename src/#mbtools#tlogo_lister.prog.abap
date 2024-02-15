@@ -90,7 +90,7 @@ SELECTION-SCREEN:
 
 *-----------------------------------------------------------------------
 
-CONSTANTS:
+CONSTANTS
   c_title TYPE string VALUE /mbtools/cl_tool_bw_lol=>c_tool-title.
 
 DATA:
